@@ -1,8 +1,10 @@
 package com.example.fe.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -22,11 +24,18 @@ class LoginActivity : AppCompatActivity() {
         val edtUsername = findViewById<EditText>(R.id.edtUsername)
         val edtPassword = findViewById<EditText>(R.id.edtPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
+        val tvSignUp = findViewById<TextView>(R.id.tvSignUp)
 
         btnLogin.setOnClickListener {
             viewModel.login(
                 edtUsername.text.toString(),
                 edtPassword.text.toString()
+            )
+        }
+
+        tvSignUp.setOnClickListener {
+            startActivity(
+                Intent(this, RegisterActivity::class.java)
             )
         }
 

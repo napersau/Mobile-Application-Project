@@ -7,7 +7,7 @@ import com.example.fe.network.RetrofitClient
 class AuthRepository {
 
     suspend fun login(username: String, password: String)
-            = RetrofitClient.api.login(
+            = RetrofitClient.authApi.login(
         AuthenticationRequest(username, password)
     )
 }
