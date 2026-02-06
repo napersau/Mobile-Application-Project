@@ -21,4 +21,8 @@ object RetrofitClient {
     val userApi: UserApi by lazy {
         retrofit.create(UserApi::class.java)
     }
+
+    val decksApi: DecksApi by lazy {
+        retrofit.create(DecksApi::class.java)
+    }
 }

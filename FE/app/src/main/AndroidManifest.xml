@@ -25,6 +25,14 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"/>
+        <activity
+            android:name=".ui.activity.DecksListActivity"
+            android:exported="false"
+            android:label="Bộ thẻ học tập"/>
+        <activity
+            android:name=".ui.activity.DeckDetailActivity"
+            android:exported="false"
+            android:label="Chi tiết bộ thẻ"/>
 
     </application>
 
