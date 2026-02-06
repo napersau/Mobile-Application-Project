@@ -2,12 +2,14 @@ package com.example.fe.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.fe.MainActivity
 import com.example.fe.R
 import com.example.fe.viewmodel.AuthViewModel
 
@@ -26,27 +28,48 @@ class LoginActivity : AppCompatActivity() {
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val tvSignUp = findViewById<TextView>(R.id.tvSignUp)
 
+        // Setup observer TRƯỚC khi có thể login
+        viewModel.loginResult.observe(this) { result ->
+            Log.d("LoginActivity", "Observer triggered")
+            result.onSuccess { authResponse ->
+                Log.d("LoginActivity", "Login success, showing toast and navigating")
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
+                
+                // Lưu token nếu cần
+                // SharedPreferences or DataStore
+                
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+            result.onFailure { exception ->
+                Log.e("LoginActivity", "Login failed: ${exception.message}", exception)
+                Toast.makeText(
+                    this,
+                    exception.message ?: "Đăng nhập thất bại",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
         btnLogin.setOnClickListener {
-            viewModel.login(
-                edtUsername.text.toString(),
-                edtPassword.text.toString()
-            )
+            val username = edtUsername.text.toString()
+            val password = edtPassword.text.toString()
+            
+            Log.d("LoginActivity", "Login button clicked: $username")
+            
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            
+            viewModel.login(username, password)
         }
 
         tvSignUp.setOnClickListener {
             startActivity(
                 Intent(this, RegisterActivity::class.java)
             )
-        }
-
-        viewModel.loginResult.observe(this) { result ->
-            result.onSuccess {
-                Toast.makeText(this, "Login thành công", Toast.LENGTH_SHORT).show()
-                // TODO: chuyển sang MainActivity
-            }
-            result.onFailure {
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-            }
         }
     }
 }

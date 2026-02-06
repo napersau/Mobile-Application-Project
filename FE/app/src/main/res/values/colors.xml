@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Primary Colors -->
+    <!-- Primary Colors - English Learning Theme -->
     <color name="primary">#4A90E2</color>
     <color name="primary_dark">#2E5C8A</color>
     <color name="primary_light">#7CB3F5</color>
 
+    <!-- Feature Colors -->
+    <color name="vocabulary_color">#FF6B6B</color>
+    <color name="grammar_color">#4ECDC4</color>
+    <color name="listening_color">#FFD93D</color>
+    <color name="speaking_color">#95E1D3</color>
+    <color name="exercise_color">#A8E6CF</color>
+    <color name="progress_color">#C7CEEA</color>
+
     <!-- Background -->
     <color name="background">#F8F9FA</color>
+    <color name="card_background">#FFFFFF</color>
 
     <!-- Text Colors -->
     <color name="text_primary">#212121</color>
     <color name="text_secondary">#757575</color>
+    <color name="text_white">#FFFFFF</color>
 
     <!-- Others -->
     <color name="divider">#E0E0E0</color>
     <color name="stroke">#DADCE0</color>
     <color name="white">#FFFFFF</color>
+    <color name="shadow">#1A000000</color>
 </resources>

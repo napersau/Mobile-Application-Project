@@ -1,3 +1,31 @@
 <resources>
-    <string name="app_name">FE</string>
+    <string name="app_name">English Learning</string>
+    
+    <!-- Home Screen -->
+    <string name="home_welcome">Xin chào!</string>
+    <string name="home_subtitle">Hãy bắt đầu hành trình học tiếng Anh của bạn</string>
+    
+    <!-- Features -->
+    <string name="feature_vocabulary">Từ vựng</string>
+    <string name="feature_vocabulary_desc">Học từ mới mỗi ngày</string>
+    
+    <string name="feature_grammar">Ngữ pháp</string>
+    <string name="feature_grammar_desc">Nắm vững cấu trúc câu</string>
+    
+    <string name="feature_listening">Luyện nghe</string>
+    <string name="feature_listening_desc">Rèn luyện kỹ năng nghe</string>
+    
+    <string name="feature_speaking">Luyện nói</string>
+    <string name="feature_speaking_desc">Thực hành phát âm</string>
+    
+    <string name="feature_exercise">Bài tập</string>
+    <string name="feature_exercise_desc">Củng cố kiến thức</string>
+    
+    <string name="feature_progress">Tiến trình</string>
+    <string name="feature_progress_desc">Theo dõi quá trình học</string>
+    
+    <!-- Stats -->
+    <string name="today_words">Từ hôm nay</string>
+    <string name="streak_days">Chuỗi ngày</string>
+    <string name="total_points">Tổng điểm</string>
 </resources>

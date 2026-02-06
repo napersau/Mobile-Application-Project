@@ -12,15 +12,16 @@ class RegisterViewModel : ViewModel() {
 
     private val repository = UserRepository()
 
-    private val _registerResult = MutableLiveData<Result<Unit>>()
-    val registerResult: LiveData<Result<Unit>> = _registerResult
+    private val _registerResult = MutableLiveData<Result<String>>()
+    val registerResult: LiveData<Result<String>> = _registerResult
 
     fun register(request: UserRequest) {
         viewModelScope.launch {
             try {
                 val response = repository.register(request)
                 if (response.code == 1000) {
-                    _registerResult.value = Result.success(Unit)
+                    _registerResult.value =
+                        Result.success(response.message ?: "Đăng ký thành công")
                 } else {
                     _registerResult.value =
                         Result.failure(Exception(response.message))

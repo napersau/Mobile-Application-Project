@@ -1,5 +1,6 @@
 package com.example.fe.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,14 +20,20 @@ class AuthViewModel : ViewModel() {
     fun login(username: String, password: String) {
         viewModelScope.launch {
             try {
+                Log.d("AuthViewModel", "Starting login for: $username")
                 val response = repository.login(username, password)
+                Log.d("AuthViewModel", "Response code: ${response.code}")
+                
                 if (response.code == 1000) {
-                    _loginResult.value = Result.success(response.result)
+                    Log.d("AuthViewModel", "Login successful, posting success")
+                    _loginResult.postValue(Result.success(response.result))
                 } else {
-                    _loginResult.value = Result.failure(Exception("Login failed"))
+                    Log.e("AuthViewModel", "Login failed with code: ${response.code}")
+                    _loginResult.postValue(Result.failure(Exception("Login failed with code: ${response.code}")))
                 }
             } catch (e: Exception) {
-                _loginResult.value = Result.failure(e)
+                Log.e("AuthViewModel", "Exception during login", e)
+                _loginResult.postValue(Result.failure(e))
             }
         }
     }
