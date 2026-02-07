@@ -1,5 +1,6 @@
 package com.example.fe.ui.activity
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,6 +26,7 @@ class DeckDetailActivity : AppCompatActivity() {
     private lateinit var tvTotalCards: TextView
     private lateinit var flashcardsAdapter: FlashcardsAdapter
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deck_detail)

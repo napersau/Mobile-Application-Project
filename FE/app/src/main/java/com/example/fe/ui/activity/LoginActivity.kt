@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.fe.MainActivity
 import com.example.fe.R
+import com.example.fe.utils.TokenManager
 import com.example.fe.viewmodel.AuthViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -33,10 +34,15 @@ class LoginActivity : AppCompatActivity() {
             Log.d("LoginActivity", "Observer triggered")
             result.onSuccess { authResponse ->
                 Log.d("LoginActivity", "Login success, showing toast and navigating")
-                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
                 
-                // Lưu token nếu cần
-                // SharedPreferences or DataStore
+                // LƯU TOKEN vào SharedPreferences
+                TokenManager.saveTokens(
+                    this,
+                    authResponse.accessToken,
+                    authResponse.refreshToken
+                )
+                
+                Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
                 
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)

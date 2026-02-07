@@ -1,214 +1,70 @@
-<?xml version="1.0" encoding="utf-8"?><?xml version="1.0" encoding="utf-8"?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</ScrollView>    </LinearLayout>        </FrameLayout>                android:visibility="gone" />                android:layout_gravity="center"                android:layout_height="wrap_content"                android:layout_width="wrap_content"                android:id="@+id/progressBar"            <ProgressBar            <!-- Loading -->                android:visibility="gone" />                android:textSize="16sp"                android:textColor="@color/text_secondary"                android:textAlignment="center"                android:text="Bộ thẻ này chưa có thẻ học nào"                android:layout_gravity="center"                android:layout_height="wrap_content"                android:layout_width="wrap_content"                android:id="@+id/tvEmpty"            <TextView            <!-- Empty State -->                android:clipToPadding="false" />                android:padding="8dp"                android:layout_height="wrap_content"                android:layout_width="match_parent"                android:id="@+id/recyclerViewFlashcards"            <androidx.recyclerview.widget.RecyclerView            <!-- RecyclerView -->            android:minHeight="300dp">            android:layout_height="wrap_content"            android:layout_width="match_parent"        <FrameLayout        <!-- Content -->            android:textStyle="bold" />            android:textSize="18sp"            android:textColor="@color/text_primary"            android:text="📝 Danh sách thẻ học"            android:layout_marginBottom="8dp"            android:layout_marginTop="8dp"            android:layout_marginStart="24dp"            android:layout_height="wrap_content"            android:layout_width="wrap_content"        <TextView        <!-- Flashcards Title -->        </androidx.cardview.widget.CardView>            </LinearLayout>                    android:textStyle="bold" />                    android:textSize="16sp"                    android:textColor="@color/text_white"                    android:text="Tổng số thẻ: 0"                    android:layout_marginTop="12dp"                    android:layout_height="wrap_content"                    android:layout_width="wrap_content"                    android:id="@+id/tvTotalCards"                <TextView                    android:alpha="0.9" />                    android:textSize="14sp"                    android:textColor="@color/text_white"                    android:text="Mô tả bộ thẻ"                    android:layout_marginTop="8dp"                    android:layout_height="wrap_content"                    android:layout_width="wrap_content"                    android:id="@+id/tvDeckDescription"                <TextView                    android:textStyle="bold" />                    android:textSize="24sp"                    android:textColor="@color/text_white"                    android:text="Tên bộ thẻ"                    android:layout_height="wrap_content"                    android:layout_width="wrap_content"                    android:id="@+id/tvDeckName"                <TextView                android:padding="20dp">                android:orientation="vertical"                android:layout_height="wrap_content"                android:layout_width="match_parent"            <LinearLayout            app:cardElevation="4dp">            app:cardCornerRadius="16dp"            app:cardBackgroundColor="@color/primary"            android:layout_margin="16dp"            android:layout_height="wrap_content"            android:layout_width="match_parent"        <androidx.cardview.widget.CardView        <!-- Deck Info Card -->        android:orientation="vertical">        android:layout_height="wrap_content"        android:layout_width="match_parent"    <LinearLayout    android:fillViewport="true">    android:background="@color/background"    android:layout_height="match_parent"    android:layout_width="match_parent"    xmlns:app="http://schemas.android.com/apk/res-auto"<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fillViewport="true">
+    android:background="@color/background">
 
-    <LinearLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- Header Info Card -->
-        <androidx.cardview.widget.CardView
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/primary_light"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/tvDeckName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tên bộ thẻ"
-                    android:textColor="@color/text_primary"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvDeckDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Mô tả bộ thẻ"
-                    android:textColor="@color/text_secondary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvTotalCards"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Tổng số thẻ: 0"
-                    android:textColor="@color/text_primary"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Flashcards Section -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="📝 Danh sách thẻ"
-            android:textColor="@color/text_primary"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Content -->
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="200dp">
-
-            <!-- RecyclerView for flashcards -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewFlashcards"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:nestedScrollingEnabled="false"
-                android:padding="8dp" />
-
-            <!-- Empty state -->
             <TextView
-                android:id="@+id/tvEmpty"
-                android:layout_width="wrap_content"
+                android:id="@+id/tvDeckName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="Bộ thẻ này chưa có flashcard nào"
-                android:textAlignment="center"
-                android:textColor="@color/text_secondary"
-                android:textSize="16sp"
-                android:visibility="gone" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-            <!-- Progress Bar -->
+            <TextView
+                android:id="@+id/tvDeckDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:id="@+id/tvTotalCards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="16dp"
                 android:visibility="gone" />
-        </FrameLayout>
-    </LinearLayout>
-</ScrollView>
+
+            <TextView
+                android:id="@+id/tvEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:gravity="center"
+                android:text="Không có thẻ nào"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewFlashcards"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
