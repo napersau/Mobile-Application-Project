@@ -11,7 +11,7 @@ class AuthInterceptor(private val context: Context) : Interceptor {
         val originalRequest = chain.request()
         
         return try {
-            val token = TokenManager.getAccessToken(context)
+            val token = TokenManager.getToken(context)
             
             val newRequest = if (!token.isNullOrEmpty()) {
                 Log.d("AuthInterceptor", "Adding token to request")

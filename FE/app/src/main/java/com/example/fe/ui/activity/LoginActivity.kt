@@ -36,10 +36,9 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LoginActivity", "Login success, showing toast and navigating")
                 
                 // LƯU TOKEN vào SharedPreferences
-                TokenManager.saveTokens(
+                TokenManager.saveToken(
                     this,
-                    authResponse.accessToken,
-                    authResponse.refreshToken
+                    authResponse.token
                 )
                 
                 Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
