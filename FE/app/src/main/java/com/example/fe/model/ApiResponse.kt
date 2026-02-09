@@ -5,3 +5,4 @@ data class ApiResponse<T>(
     val result: T,
     var message: String
 )
+

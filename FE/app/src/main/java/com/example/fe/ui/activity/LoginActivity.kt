@@ -58,16 +58,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val username = edtUsername.text.toString()
-            val password = edtPassword.text.toString()
-            
-            Log.d("LoginActivity", "Login button clicked: $username")
-            
+            val username = edtUsername.text.toString().trim()
+            val password = edtPassword.text.toString().trim()
+
+            Log.d("LoginActivity", "Login button clicked - Username: '$username', Password length: ${password.length}")
+
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             
+            // Log để debug
+            Log.d("LoginActivity", "Attempting login with username: $username")
+            Log.d("LoginActivity", "Base URL: http://10.0.2.2:8080/")
+            Log.d("LoginActivity", "Endpoint: identity/auth/login")
+
             viewModel.login(username, password)
         }
 

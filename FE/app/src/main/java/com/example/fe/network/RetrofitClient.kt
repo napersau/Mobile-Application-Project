@@ -52,4 +52,7 @@ object RetrofitClient {
 
     val decksApi: DecksApi
         get() = getRetrofit().create(DecksApi::class.java)
+
+    val flashcardsApi: FlashcardsApi
+        get() = getRetrofit().create(FlashcardsApi::class.java)
 }
