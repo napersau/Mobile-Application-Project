@@ -20,7 +20,11 @@ class AuthViewModel : ViewModel() {
     fun login(username: String, password: String) {
         viewModelScope.launch {
             try {
-                Log.d("AuthViewModel", "Starting login for: $username")
+                Log.d("AuthViewModel", "=== LOGIN ATTEMPT ===")
+                Log.d("AuthViewModel", "Username: $username")
+                Log.d("AuthViewModel", "Password length: ${password.length}")
+                Log.d("AuthViewModel", "URL: http://10.0.2.2:8080/api/v1/auth/token")
+
                 val response = repository.login(username, password)
                 Log.d("AuthViewModel", "Response received - code: ${response.code}, message: ${response.message}")
 
@@ -38,11 +42,14 @@ class AuthViewModel : ViewModel() {
                 } catch (ex: Exception) {
                     null
                 }
-                Log.e("AuthViewModel", "HTTP ${e.code()} - Error body: $errorBody")
+                Log.e("AuthViewModel", "=== HTTP ERROR ===")
+                Log.e("AuthViewModel", "Status Code: ${e.code()}")
+                Log.e("AuthViewModel", "Error Body: '$errorBody'")
+                Log.e("AuthViewModel", "Response: ${e.response()}")
 
                 val errorMsg = when (e.code()) {
-                    401 -> "Sai tên đăng nhập hoặc mật khẩu"
-                    404 -> "Không tìm thấy API endpoint. Kiểm tra: identity/auth/login"
+                    401 -> "Sai tên đăng nhập hoặc mật khẩu hoặc backend từ chối request"
+                    404 -> "Không tìm thấy API endpoint: api/v1/auth/token"
                     500 -> "Lỗi server. Vui lòng thử lại sau"
                     else -> "Lỗi kết nối: HTTP ${e.code()}"
                 }

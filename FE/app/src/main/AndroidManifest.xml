@@ -34,6 +34,11 @@
             android:name=".ui.activity.DeckDetailActivity"
             android:exported="false"
             android:label="Chi tiết bộ thẻ"/>
+        <activity
+            android:name=".ui.activity.FlashcardStudyActivity"
+            android:exported="false"
+            android:label="Học flashcards"
+            android:screenOrientation="portrait"/>
 
     </application>
 

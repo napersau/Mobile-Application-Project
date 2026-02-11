@@ -68,4 +68,11 @@
     <string name="admin_panel">Quản trị</string>
     <string name="profile">Hồ sơ</string>
     <string name="logout">Đăng xuất</string>
+
+    <!-- Flashcard Study -->
+    <string name="show_answer">Xem đáp án</string>
+    <string name="show_question">Xem câu hỏi</string>
+    <string name="next">Tiếp theo</string>
+    <string name="previous">Trước</string>
+    <string name="complete">Hoàn thành</string>
 </resources>

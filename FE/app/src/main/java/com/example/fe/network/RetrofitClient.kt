@@ -14,6 +14,9 @@ object RetrofitClient {
     @Volatile
     private var retrofit: Retrofit? = null
 
+    @Volatile
+    private var authRetrofit: Retrofit? = null
+
     fun initialize(context: Context) {
         if (retrofit == null) {
             synchronized(this) {
@@ -35,6 +38,20 @@ object RetrofitClient {
                         .client(okHttpClient)
                         .addConverterFactory(GsonConverterFactory.create())
                         .build()
+
+                    // Auth retrofit without AuthInterceptor
+                    val authOkHttpClient = OkHttpClient.Builder()
+                        .addInterceptor(loggingInterceptor)
+                        .connectTimeout(30, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .writeTimeout(30, TimeUnit.SECONDS)
+                        .build()
+
+                    authRetrofit = Retrofit.Builder()
+                        .baseUrl(BASE_URL)
+                        .client(authOkHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
                 }
             }
         }
@@ -44,8 +61,12 @@ object RetrofitClient {
         return retrofit ?: throw IllegalStateException("RetrofitClient not initialized. Call initialize() first.")
     }
 
+    private fun getAuthRetrofit(): Retrofit {
+        return authRetrofit ?: throw IllegalStateException("RetrofitClient not initialized. Call initialize() first.")
+    }
+
     val authApi: AuthApi
-        get() = getRetrofit().create(AuthApi::class.java)
+        get() = getAuthRetrofit().create(AuthApi::class.java)
 
     val userApi: UserApi
         get() = getRetrofit().create(UserApi::class.java)

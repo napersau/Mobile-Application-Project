@@ -1,9 +1,11 @@
 package com.example.fe.ui.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -24,18 +26,22 @@ class DeckDetailActivity : AppCompatActivity() {
     private lateinit var tvDeckName: TextView
     private lateinit var tvDeckDescription: TextView
     private lateinit var tvTotalCards: TextView
+    private lateinit var btnStartStudy: Button
     private lateinit var flashcardsAdapter: FlashcardsAdapter
+
+    private var currentDeckId: Long = -1L
+    private var currentDeckName: String = ""
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deck_detail)
 
-        val deckId = intent.getLongExtra("DECK_ID", -1L)
-        val deckName = intent.getStringExtra("DECK_NAME") ?: "Chi tiết bộ thẻ"
+        currentDeckId = intent.getLongExtra("DECK_ID", -1L)
+        currentDeckName = intent.getStringExtra("DECK_NAME") ?: "Chi tiết bộ thẻ"
 
         // Setup toolbar
-        supportActionBar?.title = deckName
+        supportActionBar?.title = currentDeckName
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel = ViewModelProvider(this)[DecksViewModel::class.java]
@@ -44,6 +50,7 @@ class DeckDetailActivity : AppCompatActivity() {
         tvDeckName = findViewById(R.id.tvDeckName)
         tvDeckDescription = findViewById(R.id.tvDeckDescription)
         tvTotalCards = findViewById(R.id.tvTotalCards)
+        btnStartStudy = findViewById(R.id.btnStartStudy)
         recyclerView = findViewById(R.id.recyclerViewFlashcards)
         progressBar = findViewById(R.id.progressBar)
         emptyTextView = findViewById(R.id.tvEmpty)
@@ -52,6 +59,11 @@ class DeckDetailActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         flashcardsAdapter = FlashcardsAdapter()
         recyclerView.adapter = flashcardsAdapter
+
+        // Setup Start Study button
+        btnStartStudy.setOnClickListener {
+            startStudyMode()
+        }
 
         // Observe ViewModel
         viewModel.deckDetailResult.observe(this) { result ->
@@ -67,9 +79,11 @@ class DeckDetailActivity : AppCompatActivity() {
                 if (deck.flashcardsList.isNullOrEmpty()) {
                     emptyTextView.visibility = View.VISIBLE
                     recyclerView.visibility = View.GONE
+                    btnStartStudy.visibility = View.GONE
                 } else {
                     emptyTextView.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
+                    btnStartStudy.visibility = View.VISIBLE
                     flashcardsAdapter.submitList(deck.flashcardsList)
                 }
             }
@@ -83,17 +97,26 @@ class DeckDetailActivity : AppCompatActivity() {
                 ).show()
                 emptyTextView.visibility = View.VISIBLE
                 emptyTextView.text = "Lỗi: ${exception.message}"
+                btnStartStudy.visibility = View.GONE
             }
         }
 
         // Load deck detail
-        if (deckId != -1L) {
+        if (currentDeckId != -1L) {
             progressBar.visibility = View.VISIBLE
-            viewModel.getDeckById(deckId)
+            viewModel.getDeckById(currentDeckId)
         } else {
             Toast.makeText(this, "ID bộ thẻ không hợp lệ", Toast.LENGTH_SHORT).show()
             finish()
         }
+    }
+
+    private fun startStudyMode() {
+        val intent = Intent(this, FlashcardStudyActivity::class.java).apply {
+            putExtra("DECK_ID", currentDeckId)
+            putExtra("DECK_NAME", currentDeckName)
+        }
+        startActivity(intent)
     }
 
     override fun onSupportNavigateUp(): Boolean {
