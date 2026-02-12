@@ -16,13 +16,13 @@ class DocumentsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_documents, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_documents, container, false)
         
-        // Navigate to DocumentCategoryActivity when fragment loads
-        startActivity(Intent(requireContext(), DocumentCategoryActivity::class.java))
+        // Setup click listener to navigate to DocumentCategoryActivity
+        view.setOnClickListener {
+            startActivity(Intent(requireContext(), DocumentCategoryActivity::class.java))
+        }
+        
+        return view
     }
 }

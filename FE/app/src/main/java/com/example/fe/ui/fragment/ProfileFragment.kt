@@ -16,13 +16,13 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
         
-        // Navigate to ProfileActivity when fragment loads
-        startActivity(Intent(requireContext(), ProfileActivity::class.java))
+        // Setup click listener to navigate to ProfileActivity
+        view.setOnClickListener {
+            startActivity(Intent(requireContext(), ProfileActivity::class.java))
+        }
+        
+        return view
     }
 }

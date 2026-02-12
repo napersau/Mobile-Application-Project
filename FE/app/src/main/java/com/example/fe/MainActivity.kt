@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         
         setupBottomNavigation()
         
-        // Load fragment đầu tiên
+        // Load first fragment
         if (savedInstanceState == null) {
             loadFragment(HomeFragment())
         }
@@ -53,6 +53,6 @@ class MainActivity : AppCompatActivity() {
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.nav_host_fragment, fragment)
-            .commit()
+            .commitAllowingStateLoss()
     }
 }

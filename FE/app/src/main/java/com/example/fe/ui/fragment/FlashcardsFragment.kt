@@ -16,13 +16,13 @@ class FlashcardsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_flashcards, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        val view = inflater.inflate(R.layout.fragment_flashcards, container, false)
         
-        // Navigate to DecksListActivity when fragment loads
-        startActivity(Intent(requireContext(), DecksListActivity::class.java))
+        // Setup click listener to navigate to DecksListActivity
+        view.setOnClickListener {
+            startActivity(Intent(requireContext(), DecksListActivity::class.java))
+        }
+        
+        return view
     }
 }
