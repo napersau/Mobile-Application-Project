@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.fe.R
+import com.example.fe.ui.activity.CoursesListActivity
 import com.example.fe.ui.activity.DecksListActivity
 import com.example.fe.ui.activity.DocumentCategoryActivity
 
@@ -26,7 +27,7 @@ class HomeFragment : Fragment() {
 
         // Setup click listeners for feature cards
         view.findViewById<CardView>(R.id.cardCourses)?.setOnClickListener {
-            // TODO: Navigate to Courses Activity
+            startActivity(Intent(requireContext(), CoursesListActivity::class.java))
         }
 
         view.findViewById<CardView>(R.id.cardFlashcards)?.setOnClickListener {
