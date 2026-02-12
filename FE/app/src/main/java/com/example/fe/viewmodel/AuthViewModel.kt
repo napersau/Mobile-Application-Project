@@ -28,18 +28,18 @@ class AuthViewModel : ViewModel() {
                 val response = repository.login(username, password)
                 Log.d("AuthViewModel", "Response received - code: ${response.code}, message: ${response.message}")
 
-                if (response.code == 1000) {
+                if (response.code == 1000 && response.result != null) {
                     Log.d("AuthViewModel", "Login successful, posting success")
                     _loginResult.postValue(Result.success(response.result))
                 } else {
-                    val errorMsg = "Đăng nhập thất bại: ${response.message ?: "Lỗi không xác định"}"
+                    val errorMsg = "Đăng nhập thất bại: ${response.message}"
                     Log.e("AuthViewModel", errorMsg)
                     _loginResult.postValue(Result.failure(Exception(errorMsg)))
                 }
             } catch (e: retrofit2.HttpException) {
                 val errorBody = try {
                     e.response()?.errorBody()?.string()
-                } catch (ex: Exception) {
+                } catch (_: Exception) {
                     null
                 }
                 Log.e("AuthViewModel", "=== HTTP ERROR ===")
@@ -48,7 +48,7 @@ class AuthViewModel : ViewModel() {
                 Log.e("AuthViewModel", "Response: ${e.response()}")
 
                 val errorMsg = when (e.code()) {
-                    401 -> "Sai tên đăng nhập hoặc mật khẩu hoặc backend từ chối request"
+                    401 -> "Sai tên đăng nhập hoặc mật khẩu"
                     404 -> "Không tìm thấy API endpoint: api/v1/auth/token"
                     500 -> "Lỗi server. Vui lòng thử lại sau"
                     else -> "Lỗi kết nối: HTTP ${e.code()}"

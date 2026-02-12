@@ -1,10 +1,15 @@
 package com.example.fe.network
 
 import android.content.Context
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.Instant
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
@@ -16,6 +21,15 @@ object RetrofitClient {
 
     @Volatile
     private var authRetrofit: Retrofit? = null
+
+    private fun createGson() = GsonBuilder()
+        .registerTypeAdapter(Instant::class.java, JsonDeserializer { json, _, _ ->
+            Instant.parse(json.asString)
+        })
+        .registerTypeAdapter(Instant::class.java, JsonSerializer<Instant> { src, _, _ ->
+            JsonPrimitive(src.toString())
+        })
+        .create()
 
     fun initialize(context: Context) {
         if (retrofit == null) {
@@ -36,7 +50,7 @@ object RetrofitClient {
                     retrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .client(okHttpClient)
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(createGson()))
                         .build()
 
                     // Auth retrofit without AuthInterceptor
@@ -50,7 +64,7 @@ object RetrofitClient {
                     authRetrofit = Retrofit.Builder()
                         .baseUrl(BASE_URL)
                         .client(authOkHttpClient)
-                        .addConverterFactory(GsonConverterFactory.create())
+                        .addConverterFactory(GsonConverterFactory.create(createGson()))
                         .build()
                 }
             }
@@ -76,4 +90,7 @@ object RetrofitClient {
 
     val flashcardsApi: FlashcardsApi
         get() = getRetrofit().create(FlashcardsApi::class.java)
+
+    val documentApi: DocumentApi
+        get() = getRetrofit().create(DocumentApi::class.java)
 }

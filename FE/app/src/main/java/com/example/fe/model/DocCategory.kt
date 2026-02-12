@@ -1,13 +1,8 @@
 package com.example.fe.model
 
 enum class DocCategory {
-    TECHNOLOGY,
-    SCIENCE,
-    MATHEMATICS,
-    LITERATURE,
-    HISTORY,
-    LANGUAGE,
-    BUSINESS,
-    HEALTH,
-    OTHER
+    GRAMMAR,
+    VOCABULARY,
+    SKILLS,
+    EXAM_PREPARATION
 }

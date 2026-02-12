@@ -17,28 +17,44 @@ import com.example.fe.model.DocumentResponse
 import com.example.fe.model.UserSession
 import com.example.fe.ui.adapter.DocumentAdapter
 import com.example.fe.viewmodel.DocumentViewModel
+import com.example.fe.viewmodel.DocumentViewModelFactory
+import com.example.fe.repository.DocumentRepository
+import com.example.fe.network.RetrofitClient
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
 
 class DocumentListActivity : AppCompatActivity() {
 
-    private val viewModel: DocumentViewModel by viewModels()
+    private val viewModel: DocumentViewModel by viewModels {
+        DocumentViewModelFactory(
+            DocumentRepository(RetrofitClient.documentApi)
+        )
+    }
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: DocumentAdapter
     private lateinit var fabAdd: FloatingActionButton
-    private lateinit var progressIndicator: CircularProgressIndicator
+    private lateinit var progressIndicator: LinearProgressIndicator
+    private var selectedCategory: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_document_list)
+
+        // Lấy category từ Intent
+        selectedCategory = intent.getStringExtra("category")
 
         setupToolbar()
         setupViews()
         setupObservers()
         setupClickListeners()
 
-        // Load documents
-        viewModel.loadDocumentsByCategory()
+        // Load documents theo category
+        selectedCategory?.let {
+            viewModel.loadDocumentsByCategory(it)
+        } ?: run {
+            showError("Vui lòng chọn danh mục tài liệu")
+            finish()
+        }
     }
 
     private fun setupToolbar() {
@@ -127,7 +143,7 @@ class DocumentListActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_refresh -> {
-                viewModel.loadDocumentsByCategory()
+                selectedCategory?.let { viewModel.loadDocumentsByCategory(it) }
                 true
             }
             R.id.action_admin_panel -> {
@@ -226,7 +242,7 @@ class DocumentListActivity : AppCompatActivity() {
         // Update permissions khi quay lại activity
         viewModel.updateUserPermissions()
         // Refresh data
-        viewModel.loadDocumentsByCategory()
+        selectedCategory?.let { viewModel.loadDocumentsByCategory(it) }
     }
 
     private fun showError(message: String) {

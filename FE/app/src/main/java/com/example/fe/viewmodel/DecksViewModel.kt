@@ -25,12 +25,12 @@ class DecksViewModel : ViewModel() {
                 Log.d("DecksViewModel", "Fetching all decks")
                 val response = repository.getAllDecks()
                 
-                if (response.code == 1000) {
+                if (response.code == 1000 && response.result != null) {
                     Log.d("DecksViewModel", "Fetched ${response.result.size} decks")
                     _decksListResult.postValue(Result.success(response.result))
                 } else {
-                    Log.e("DecksViewModel", "Failed with code: ${response.code}")
-                    _decksListResult.postValue(Result.failure(Exception("Failed to fetch decks")))
+                    Log.e("DecksViewModel", "Failed with code: ${response.code}, message: ${response.message}")
+                    _decksListResult.postValue(Result.failure(Exception(response.message)))
                 }
             } catch (e: Exception) {
                 Log.e("DecksViewModel", "Exception fetching decks", e)
@@ -45,12 +45,12 @@ class DecksViewModel : ViewModel() {
                 Log.d("DecksViewModel", "Fetching deck with id: $id")
                 val response = repository.getDeckById(id)
                 
-                if (response.code == 1000) {
+                if (response.code == 1000 && response.result != null) {
                     Log.d("DecksViewModel", "Fetched deck: ${response.result.title}")
                     _deckDetailResult.postValue(Result.success(response.result))
                 } else {
-                    Log.e("DecksViewModel", "Failed with code: ${response.code}")
-                    _deckDetailResult.postValue(Result.failure(Exception("Failed to fetch deck detail")))
+                    Log.e("DecksViewModel", "Failed with code: ${response.code}, message: ${response.message}")
+                    _deckDetailResult.postValue(Result.failure(Exception(response.message)))
                 }
             } catch (e: Exception) {
                 Log.e("DecksViewModel", "Exception fetching deck detail", e)

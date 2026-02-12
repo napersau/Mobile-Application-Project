@@ -6,12 +6,12 @@
     <string name="home_subtitle">Hãy bắt đầu hành trình học tiếng Anh của bạn</string>
     
     <!-- Features -->
-    <string name="feature_vocabulary">Từ vựng</string>
+    <string name="feature_vocabulary">Flashcards</string>
     <string name="feature_vocabulary_desc">Học từ mới mỗi ngày</string>
     
-    <string name="feature_grammar">Ngữ pháp</string>
-    <string name="feature_grammar_desc">Nắm vững cấu trúc câu</string>
-    
+    <string name="feature_grammar">Tài liệu</string>
+    <string name="feature_grammar_desc">Học ngữ pháp, từ vựng, kỹ năng</string>
+
     <string name="feature_listening">Luyện nghe</string>
     <string name="feature_listening_desc">Rèn luyện kỹ năng nghe</string>
     

@@ -2,29 +2,25 @@ package com.example.fe.repository
 
 import android.util.Log
 import com.example.fe.model.*
-import com.example.fe.service.DocumentApiService
+import com.example.fe.network.DocumentApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class DocumentRepository(private val apiService: DocumentApiService) {
+class DocumentRepository(private val apiService: DocumentApi) {
 
     companion object {
         private const val TAG = "DocumentRepository"
     }
 
-    suspend fun getDocumentsByCategory(category: String? = null): Result<List<DocumentResponse>> {
+    suspend fun getDocumentsByCategory(category: String): Result<List<DocumentResponse>> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = apiService.getDocumentsByCategory(category)
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse != null && apiResponse.code == 1000) {
-                        Result.success(apiResponse.result)
-                    } else {
-                        Result.failure(Exception(apiResponse?.message ?: "Unknown error"))
-                    }
+                val apiResponse = apiService.getDocumentsByCategory(category)
+
+                if (apiResponse.code == 1000 && apiResponse.result != null) {
+                    Result.success(apiResponse.result)
                 } else {
-                    Result.failure(Exception("Network error: ${response.code()}"))
+                    Result.failure(Exception(apiResponse.message))
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error getting documents by category", e)
@@ -36,16 +32,11 @@ class DocumentRepository(private val apiService: DocumentApiService) {
     suspend fun getDocumentById(id: Long): Result<DocumentResponse> {
         return withContext(Dispatchers.IO) {
             try {
-                val response = apiService.getDocumentById(id)
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse != null && apiResponse.code == 1000) {
-                        Result.success(apiResponse.result)
-                    } else {
-                        Result.failure(Exception(apiResponse?.message ?: "Document not found"))
-                    }
+                val apiResponse = apiService.getDocumentById(id)
+                if (apiResponse.code == 1000 && apiResponse.result != null) {
+                    Result.success(apiResponse.result)
                 } else {
-                    Result.failure(Exception("Network error: ${response.code()}"))
+                    Result.failure(Exception(apiResponse.message))
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error getting document by id", e)
@@ -69,18 +60,11 @@ class DocumentRepository(private val apiService: DocumentApiService) {
                     return@withContext Result.failure(Exception(errors.joinToString("\n")))
                 }
 
-                val token = "Bearer ${UserSession.currentUser?.token}"
-                val response = apiService.createDocument(request, token)
-                
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse != null && apiResponse.code == 1000) {
-                        Result.success(apiResponse.result)
-                    } else {
-                        Result.failure(Exception(apiResponse?.message ?: "Failed to create document"))
-                    }
+                val apiResponse = apiService.createDocument(request)
+                if (apiResponse.code == 1000 && apiResponse.result != null) {
+                    Result.success(apiResponse.result)
                 } else {
-                    Result.failure(Exception("Network error: ${response.code()}"))
+                    Result.failure(Exception(apiResponse.message))
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error creating document", e)
@@ -104,18 +88,11 @@ class DocumentRepository(private val apiService: DocumentApiService) {
                     return@withContext Result.failure(Exception(errors.joinToString("\n")))
                 }
 
-                val token = "Bearer ${UserSession.currentUser?.token}"
-                val response = apiService.updateDocument(id, request, token)
-                
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse != null && apiResponse.code == 1000) {
-                        Result.success(apiResponse.result)
-                    } else {
-                        Result.failure(Exception(apiResponse?.message ?: "Failed to update document"))
-                    }
+                val apiResponse = apiService.updateDocument(id, request)
+                if (apiResponse.code == 1000 && apiResponse.result != null) {
+                    Result.success(apiResponse.result)
                 } else {
-                    Result.failure(Exception("Network error: ${response.code()}"))
+                    Result.failure(Exception(apiResponse.message))
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error updating document", e)
@@ -132,18 +109,11 @@ class DocumentRepository(private val apiService: DocumentApiService) {
                     return@withContext Result.failure(Exception("Bạn không có quyền xóa tài liệu"))
                 }
 
-                val token = "Bearer ${UserSession.currentUser?.token}"
-                val response = apiService.deleteDocument(id, token)
-                
-                if (response.isSuccessful) {
-                    val apiResponse = response.body()
-                    if (apiResponse != null && apiResponse.code == 1000) {
-                        Result.success(apiResponse.message)
-                    } else {
-                        Result.failure(Exception(apiResponse?.message ?: "Failed to delete document"))
-                    }
+                val apiResponse = apiService.deleteDocument(id)
+                if (apiResponse.code == 1000) {
+                    Result.success(apiResponse.message)
                 } else {
-                    Result.failure(Exception("Network error: ${response.code()}"))
+                    Result.failure(Exception(apiResponse.message))
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Error deleting document", e)

@@ -1,7 +1,6 @@
 package com.example.fe.ui.activity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -10,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -18,13 +16,20 @@ import com.example.fe.R
 import com.example.fe.model.DocumentResponse
 import com.example.fe.model.UserSession
 import com.example.fe.viewmodel.DocumentViewModel
+import com.example.fe.viewmodel.DocumentViewModelFactory
+import com.example.fe.repository.DocumentRepository
+import com.example.fe.network.RetrofitClient
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.text.SimpleDateFormat
 import java.util.*
 
 class DocumentDetailActivity : AppCompatActivity() {
 
-    private val viewModel: DocumentViewModel by viewModels()
+    private val viewModel: DocumentViewModel by viewModels {
+        DocumentViewModelFactory(
+            DocumentRepository(RetrofitClient.documentApi)
+        )
+    }
     private lateinit var titleText: TextView
     private lateinit var descriptionText: TextView
     private lateinit var contentText: TextView
@@ -39,7 +44,6 @@ class DocumentDetailActivity : AppCompatActivity() {
     private var documentId: Long = 0
     private var currentDocument: DocumentResponse? = null
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_document_detail)
@@ -79,7 +83,6 @@ class DocumentDetailActivity : AppCompatActivity() {
         progressIndicator = findViewById(R.id.progressIndicator)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun setupObservers() {
         viewModel.selectedDocument.observe(this, Observer { document ->
             document?.let {
@@ -109,7 +112,6 @@ class DocumentDetailActivity : AppCompatActivity() {
         })
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun displayDocument(document: DocumentResponse) {
         titleText.text = document.title
         descriptionText.text = document.description.ifEmpty { "Không có mô tả" }
@@ -234,15 +236,10 @@ class DocumentDetailActivity : AppCompatActivity() {
 
     private fun getCategoryDisplayName(category: String): String {
         return when (category) {
-            "TECHNOLOGY" -> "Công nghệ"
-            "SCIENCE" -> "Khoa học"
-            "MATHEMATICS" -> "Toán học"
-            "LITERATURE" -> "Văn học"
-            "HISTORY" -> "Lịch sử"
-            "LANGUAGE" -> "Ngôn ngữ"
-            "BUSINESS" -> "Kinh doanh"
-            "HEALTH" -> "Sức khỏe"
-            "OTHER" -> "Khác"
+            "GRAMMAR" -> "Ngữ pháp"
+            "VOCABULARY" -> "Từ vựng"
+            "SKILLS" -> "Kỹ năng"
+            "EXAM_PREPARATION" -> "Luyện thi"
             else -> category
         }
     }

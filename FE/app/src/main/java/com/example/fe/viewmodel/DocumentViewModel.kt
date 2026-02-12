@@ -21,11 +21,14 @@ class DocumentViewModel(private val repository: DocumentRepository) : ViewModel(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _error = MutableLiveData<String>()
-    val error: LiveData<String> = _error
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
 
-    private val _success = MutableLiveData<String>()
-    val success: LiveData<String> = _success
+    private val _success = MutableLiveData<String?>()
+    val success: LiveData<String?> = _success
+
+    // Track current category for refresh operations
+    private var currentCategory: String? = null
 
     // UI state cho permissions
     private val _canCreate = MutableLiveData<Boolean>()
@@ -51,7 +54,8 @@ class DocumentViewModel(private val repository: DocumentRepository) : ViewModel(
         _isAdmin.value = UserSession.isAdmin()
     }
 
-    fun loadDocumentsByCategory(category: String? = null) {
+    fun loadDocumentsByCategory(category: String) {
+        currentCategory = category // Save for refresh
         viewModelScope.launch {
             _isLoading.value = true
             _error.value = null
@@ -99,8 +103,8 @@ class DocumentViewModel(private val repository: DocumentRepository) : ViewModel(
                 onSuccess = { document ->
                     _success.value = "Tạo tài liệu thành công"
                     _selectedDocument.value = document
-                    // Reload documents list
-                    loadDocumentsByCategory()
+                    // Reload documents list if we have a current category
+                    currentCategory?.let { loadDocumentsByCategory(it) }
                 },
                 onFailure = { exception ->
                     _error.value = exception.message ?: "Lỗi tạo tài liệu"
@@ -124,8 +128,8 @@ class DocumentViewModel(private val repository: DocumentRepository) : ViewModel(
                 onSuccess = { document ->
                     _success.value = "Cập nhật tài liệu thành công"
                     _selectedDocument.value = document
-                    // Reload documents list
-                    loadDocumentsByCategory()
+                    // Reload documents list if we have a current category
+                    currentCategory?.let { loadDocumentsByCategory(it) }
                 },
                 onFailure = { exception ->
                     _error.value = exception.message ?: "Lỗi cập nhật tài liệu"
@@ -148,8 +152,8 @@ class DocumentViewModel(private val repository: DocumentRepository) : ViewModel(
             repository.deleteDocument(id).fold(
                 onSuccess = { message ->
                     _success.value = message
-                    // Reload documents list
-                    loadDocumentsByCategory()
+                    // Reload documents list if we have a current category
+                    currentCategory?.let { loadDocumentsByCategory(it) }
                 },
                 onFailure = { exception ->
                     _error.value = exception.message ?: "Lỗi xóa tài liệu"

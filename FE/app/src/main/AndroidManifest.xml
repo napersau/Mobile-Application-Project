@@ -39,6 +39,30 @@
             android:exported="false"
             android:label="Học flashcards"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.DocumentCategoryActivity"
+            android:exported="false"
+            android:label="Danh mục tài liệu"/>
+        <activity
+            android:name=".ui.activity.DocumentListActivity"
+            android:exported="false"
+            android:label="Tài liệu học tập"/>
+        <activity
+            android:name=".ui.activity.DocumentDetailActivity"
+            android:exported="false"
+            android:label="Chi tiết tài liệu"/>
+        <activity
+            android:name=".ui.activity.DocumentEditorActivity"
+            android:exported="false"
+            android:label="Chỉnh sửa tài liệu"/>
+        <activity
+            android:name=".ui.activity.AdminPanelActivity"
+            android:exported="false"
+            android:label="Quản trị"/>
+        <activity
+            android:name=".ui.activity.ProfileActivity"
+            android:exported="false"
+            android:label="Hồ sơ"/>
 
     </application>
 

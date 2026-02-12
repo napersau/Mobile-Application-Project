@@ -13,6 +13,9 @@ import androidx.lifecycle.Observer
 import com.example.fe.R
 import com.example.fe.model.*
 import com.example.fe.viewmodel.DocumentViewModel
+import com.example.fe.viewmodel.DocumentViewModelFactory
+import com.example.fe.repository.DocumentRepository
+import com.example.fe.network.RetrofitClient
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
@@ -20,8 +23,12 @@ import com.google.android.material.textfield.TextInputLayout
 
 class DocumentEditorActivity : AppCompatActivity() {
 
-    private val viewModel: DocumentViewModel by viewModels()
-    
+    private val viewModel: DocumentViewModel by viewModels {
+        DocumentViewModelFactory(
+            DocumentRepository(RetrofitClient.documentApi)
+        )
+    }
+
     private lateinit var titleInput: TextInputEditText
     private lateinit var titleLayout: TextInputLayout
     private lateinit var descriptionInput: TextInputEditText
@@ -262,15 +269,10 @@ class DocumentEditorActivity : AppCompatActivity() {
 
     private fun getCategoryDisplayName(category: String): String {
         return when (category) {
-            "TECHNOLOGY" -> "Công nghệ"
-            "SCIENCE" -> "Khoa học"
-            "MATHEMATICS" -> "Toán học"
-            "LITERATURE" -> "Văn học"
-            "HISTORY" -> "Lịch sử"
-            "LANGUAGE" -> "Ngôn ngữ"
-            "BUSINESS" -> "Kinh doanh"
-            "HEALTH" -> "Sức khỏe"
-            "OTHER" -> "Khác"
+            "GRAMMAR" -> "Ngữ pháp"
+            "VOCABULARY" -> "Từ vựng"
+            "SKILLS" -> "Kỹ năng"
+            "EXAM_PREPARATION" -> "Luyện thi"
             else -> category
         }
     }

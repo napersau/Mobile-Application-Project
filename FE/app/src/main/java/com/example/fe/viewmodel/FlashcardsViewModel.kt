@@ -29,12 +29,12 @@ class FlashcardsViewModel : ViewModel() {
                 Log.d("FlashcardsViewModel", "Fetching all flashcards")
                 val response = repository.getAllFlashcards()
                 
-                if (response.code == 1000) {
+                if (response.code == 1000 && response.result != null) {
                     Log.d("FlashcardsViewModel", "Fetched ${response.result.size} flashcards")
                     _flashcardsListResult.postValue(Result.success(response.result))
                 } else {
-                    Log.e("FlashcardsViewModel", "Failed with code: ${response.code}")
-                    _flashcardsListResult.postValue(Result.failure(Exception("Failed to fetch flashcards")))
+                    Log.e("FlashcardsViewModel", "Failed with code: ${response.code}, message: ${response.message}")
+                    _flashcardsListResult.postValue(Result.failure(Exception(response.message)))
                 }
             } catch (e: Exception) {
                 Log.e("FlashcardsViewModel", "Exception fetching flashcards", e)
@@ -49,12 +49,12 @@ class FlashcardsViewModel : ViewModel() {
                 Log.d("FlashcardsViewModel", "Fetching flashcard with id: $id")
                 val response = repository.getFlashcardById(id)
                 
-                if (response.code == 1000) {
+                if (response.code == 1000 && response.result != null) {
                     Log.d("FlashcardsViewModel", "Fetched flashcard: ${response.result.term}")
                     _flashcardDetailResult.postValue(Result.success(response.result))
                 } else {
-                    Log.e("FlashcardsViewModel", "Failed with code: ${response.code}")
-                    _flashcardDetailResult.postValue(Result.failure(Exception("Failed to fetch flashcard detail")))
+                    Log.e("FlashcardsViewModel", "Failed with code: ${response.code}, message: ${response.message}")
+                    _flashcardDetailResult.postValue(Result.failure(Exception(response.message)))
                 }
             } catch (e: Exception) {
                 Log.e("FlashcardsViewModel", "Exception fetching flashcard detail", e)
@@ -69,12 +69,12 @@ class FlashcardsViewModel : ViewModel() {
                 Log.d("FlashcardsViewModel", "Creating flashcard: ${flashcardRequest.term}")
                 val response = repository.createFlashcard(flashcardRequest)
                 
-                if (response.code == 1000) {
+                if (response.code == 1000 && response.result != null) {
                     Log.d("FlashcardsViewModel", "Created flashcard successfully")
                     _createFlashcardResult.postValue(Result.success(response.result))
                 } else {
-                    Log.e("FlashcardsViewModel", "Failed with code: ${response.code}")
-                    _createFlashcardResult.postValue(Result.failure(Exception("Failed to create flashcard")))
+                    Log.e("FlashcardsViewModel", "Failed with code: ${response.code}, message: ${response.message}")
+                    _createFlashcardResult.postValue(Result.failure(Exception(response.message)))
                 }
             } catch (e: Exception) {
                 Log.e("FlashcardsViewModel", "Exception creating flashcard", e)

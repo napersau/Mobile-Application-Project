@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.example.fe.ui.activity.DecksListActivity
+import com.example.fe.ui.activity.DocumentCategoryActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         findViewById<CardView>(R.id.cardGrammar).setOnClickListener {
-            // TODO: Navigate to Grammar Activity
+            startActivity(Intent(this, DocumentCategoryActivity::class.java))
         }
 
         findViewById<CardView>(R.id.cardListening).setOnClickListener {

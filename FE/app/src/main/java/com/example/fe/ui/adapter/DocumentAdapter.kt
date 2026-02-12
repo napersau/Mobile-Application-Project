@@ -97,15 +97,10 @@ class DocumentAdapter(
         
         private fun getCategoryDisplayName(category: String): String {
             return when (category) {
-                "TECHNOLOGY" -> "Công nghệ"
-                "SCIENCE" -> "Khoa học"
-                "MATHEMATICS" -> "Toán học"
-                "LITERATURE" -> "Văn học"
-                "HISTORY" -> "Lịch sử"
-                "LANGUAGE" -> "Ngôn ngữ"
-                "BUSINESS" -> "Kinh doanh"
-                "HEALTH" -> "Sức khỏe"
-                "OTHER" -> "Khác"
+                "GRAMMAR" -> "Ngữ pháp"
+                "VOCABULARY" -> "Từ vựng"
+                "SKILLS" -> "Kỹ năng"
+                "EXAM_PREPARATION" -> "Luyện thi"
                 else -> category
             }
         }

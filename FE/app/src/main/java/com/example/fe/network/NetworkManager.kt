@@ -2,7 +2,6 @@ package com.example.fe.network
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.fe.service.DocumentApiService
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import java.time.Instant
@@ -26,8 +25,8 @@ object NetworkManager {
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
-    val documentApiService: DocumentApiService by lazy {
-        retrofit.create(DocumentApiService::class.java)
+    val documentApi: DocumentApi by lazy {
+        retrofit.create(DocumentApi::class.java)
     }
 }
 
