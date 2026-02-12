@@ -29,6 +29,12 @@
     <string name="streak_days">Chuỗi ngày</string>
     <string name="total_points">Tổng điểm</string>
 
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_documents">Tài liệu</string>
+    <string name="nav_flashcards">Flashcards</string>
+    <string name="nav_profile">Hồ sơ</string>
+
     <!-- Document Detail -->
     <string name="document_thumbnail">Ảnh thu nhỏ tài liệu</string>
     <string name="document_title">Tiêu đề tài liệu</string>
