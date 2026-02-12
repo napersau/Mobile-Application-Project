@@ -1,41 +1,58 @@
 package com.example.fe
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
-import com.example.fe.ui.activity.DecksListActivity
-import com.example.fe.ui.activity.DocumentCategoryActivity
+import androidx.fragment.app.Fragment
+import com.example.fe.databinding.ActivityMainBinding
+import com.example.fe.ui.fragment.DocumentsFragment
+import com.example.fe.ui.fragment.FlashcardsFragment
+import com.example.fe.ui.fragment.HomeFragment
+import com.example.fe.ui.fragment.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
-
+    
+    private lateinit var binding: ActivityMainBinding
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        // Setup click listeners for feature cards
-        findViewById<CardView>(R.id.cardVocabulary).setOnClickListener {
-            startActivity(Intent(this, DecksListActivity::class.java))
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        
+        setupBottomNavigation()
+        
+        // Load first fragment
+        if (savedInstanceState == null) {
+            loadFragment(HomeFragment())
         }
-
-        findViewById<CardView>(R.id.cardGrammar).setOnClickListener {
-            startActivity(Intent(this, DocumentCategoryActivity::class.java))
+    }
+    
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_home -> {
+                    loadFragment(HomeFragment())
+                    true
+                }
+                R.id.navigation_documents -> {
+                    loadFragment(DocumentsFragment())
+                    true
+                }
+                R.id.navigation_flashcards -> {
+                    loadFragment(FlashcardsFragment())
+                    true
+                }
+                R.id.navigation_profile -> {
+                    loadFragment(ProfileFragment())
+                    true
+                }
+                else -> false
+            }
         }
-
-        findViewById<CardView>(R.id.cardListening).setOnClickListener {
-            // TODO: Navigate to Listening Activity
-        }
-
-        findViewById<CardView>(R.id.cardSpeaking).setOnClickListener {
-            // TODO: Navigate to Speaking Activity
-        }
-
-        findViewById<CardView>(R.id.cardExercise).setOnClickListener {
-            // TODO: Navigate to Exercise Activity
-        }
-
-        findViewById<CardView>(R.id.cardProgress).setOnClickListener {
-            // TODO: Navigate to Progress Activity
-        }
+    }
+    
+    private fun loadFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_fragment, fragment)
+            .commitAllowingStateLoss()
     }
 }
