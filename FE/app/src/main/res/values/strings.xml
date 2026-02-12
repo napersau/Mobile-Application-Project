@@ -29,6 +29,18 @@
     <string name="streak_days">Chuỗi ngày</string>
     <string name="total_points">Tổng điểm</string>
 
+    <!-- Section Titles -->
+    <string name="main_features_title">Tính năng chính</string>
+    <string name="other_features_title">Tính năng khác</string>
+
+    <!-- Feature Icons -->
+    <string name="icon_vocabulary">📚</string>
+    <string name="icon_grammar">📄</string>
+    <string name="icon_listening">🎧</string>
+    <string name="icon_speaking">🎤</string>
+    <string name="icon_exercise">✍️</string>
+    <string name="icon_progress">📊</string>
+
     <!-- Document Detail -->
     <string name="document_thumbnail">Ảnh thu nhỏ tài liệu</string>
     <string name="document_title">Tiêu đề tài liệu</string>
@@ -75,4 +87,14 @@
     <string name="next">Tiếp theo</string>
     <string name="previous">Trước</string>
     <string name="complete">Hoàn thành</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_courses">Khóa học</string>
+    <string name="nav_exams">Đề thi</string>
+    <string name="nav_documents">Tài liệu</string>
+    <string name="nav_flashcards">Flashcards</string>
+    <string name="nav_translate">Dịch</string>
+    <string name="nav_ai">AI</string>
+    <string name="nav_profile">Cá nhân</string>
 </resources>
