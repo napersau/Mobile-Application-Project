@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Exam Title -->
+        <TextView
+            android:id="@+id/tvExamTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="ETS 2024 - Test 1"
+            android:textColor="@color/text_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:text="ETS 2024 - Test 1" />
+
+        <!-- Exam Type -->
+        <TextView
+            android:id="@+id/tvExamType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_chip"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:text="📄 TOEIC Full Test"
+            android:textColor="@color/primary"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="📄 TOEIC Full Test" />
+
+        <!-- Exam Info Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <!-- Duration -->
+            <TextView
+                android:id="@+id/tvExamDuration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="⏱️ 120 phút"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                tools:text="⏱️ 120 phút" />
+
+            <!-- Questions Count -->
+            <TextView
+                android:id="@+id/tvExamQuestions"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="📝 200 câu hỏi"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp"
+                tools:text="📝 200 câu hỏi" />
+        </LinearLayout>
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/tvExamDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="Đề thi TOEIC đầy đủ 200 câu"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp"
+            tools:text="Đề thi TOEIC đầy đủ 200 câu" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+

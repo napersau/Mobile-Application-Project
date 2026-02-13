@@ -11,6 +11,7 @@ import com.example.fe.R
 import com.example.fe.ui.activity.CoursesListActivity
 import com.example.fe.ui.activity.DecksListActivity
 import com.example.fe.ui.activity.DocumentCategoryActivity
+import com.example.fe.ui.activity.ExamCategoryActivity
 
 class HomeFragment : Fragment() {
 
@@ -39,7 +40,7 @@ class HomeFragment : Fragment() {
         }
 
         view.findViewById<CardView>(R.id.cardExams)?.setOnClickListener {
-            // TODO: Navigate to Exams Activity
+            startActivity(Intent(requireContext(), ExamCategoryActivity::class.java))
         }
     }
 }

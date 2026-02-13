@@ -10,7 +10,7 @@ data class Lesson(
     val duration: Int? = null, // in seconds
     val document: DocumentResponse? = null,
     val deck: DecksResponse? = null,
-    val exam: Exam? = null
+    val exam: ExamResponse? = null
 )
 
 enum class LessonType {

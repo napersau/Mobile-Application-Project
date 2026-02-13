@@ -71,6 +71,27 @@
             android:name=".ui.activity.ProfileActivity"
             android:exported="false"
             android:label="Hồ sơ"/>
+        <activity
+            android:name=".ui.activity.ExamCategoryActivity"
+            android:exported="false"
+            android:label="Loại đề thi"/>
+        <activity
+            android:name=".ui.activity.ExamListActivity"
+            android:exported="false"
+            android:label="Danh sách đề thi"/>
+        <activity
+            android:name=".ui.activity.ExamDetailActivity"
+            android:exported="false"
+            android:label="Chi tiết bài thi"/>
+        <activity
+            android:name=".ui.activity.ExamTakingActivity"
+            android:exported="false"
+            android:label="Làm bài thi"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.activity.ExamResultActivity"
+            android:exported="false"
+            android:label="Kết quả bài thi"/>
 
     </application>
 
