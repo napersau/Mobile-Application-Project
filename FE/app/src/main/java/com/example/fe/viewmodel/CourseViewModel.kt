@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class CourseViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = CourseRepository(application.applicationContext)
+    private val repository = CourseRepository()
 
     private val _coursesLiveData = MutableLiveData<Result<List<Course>>>()
     val coursesLiveData: LiveData<Result<List<Course>>> = _coursesLiveData

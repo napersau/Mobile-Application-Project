@@ -1,14 +1,13 @@
 package com.example.fe.repository
 
-import android.content.Context
 import com.example.fe.model.Course
 import com.example.fe.model.CourseRequest
 import com.example.fe.network.CourseApiService
 import com.example.fe.network.RetrofitClient
 
-class CourseRepository(private val context: Context) {
+class CourseRepository {
 
-    private val api: CourseApiService = RetrofitClient.getInstance(context).create(CourseApiService::class.java)
+    private val api: CourseApiService = RetrofitClient.courseApi
 
     suspend fun createCourse(request: CourseRequest): Result<Course> {
         return try {

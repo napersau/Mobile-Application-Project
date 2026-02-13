@@ -93,4 +93,7 @@ object RetrofitClient {
 
     val documentApi: DocumentApi
         get() = getRetrofit().create(DocumentApi::class.java)
+
+    val courseApi: CourseApiService
+        get() = getRetrofit().create(CourseApiService::class.java)
 }
