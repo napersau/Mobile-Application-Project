@@ -1,6 +1,7 @@
 package com.example.fe.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -13,6 +14,8 @@ class ExamResultActivity : AppCompatActivity() {
     private lateinit var tvTotalQuestions: TextView
     private lateinit var tvTimeTaken: TextView
     private lateinit var tvResultMessage: TextView
+    private lateinit var tvListeningScore: TextView
+    private lateinit var tvReadingScore: TextView
     private lateinit var btnReviewAnswers: Button
     private lateinit var btnBackToList: Button
 
@@ -31,6 +34,8 @@ class ExamResultActivity : AppCompatActivity() {
         tvTotalQuestions = findViewById(R.id.tvTotalQuestions)
         tvTimeTaken = findViewById(R.id.tvTimeTaken)
         tvResultMessage = findViewById(R.id.tvResultMessage)
+        tvListeningScore = findViewById(R.id.tvListeningScore)
+        tvReadingScore = findViewById(R.id.tvReadingScore)
         btnReviewAnswers = findViewById(R.id.btnReviewAnswers)
         btnBackToList = findViewById(R.id.btnBackToList)
 
@@ -40,11 +45,14 @@ class ExamResultActivity : AppCompatActivity() {
     }
 
     private fun displayResults() {
+        val examResultId = intent.getLongExtra("EXAM_RESULT_ID", -1)
         val examId = intent.getLongExtra("EXAM_ID", -1)
         val correctAnswers = intent.getIntExtra("CORRECT_ANSWERS", 0)
         val totalQuestions = intent.getIntExtra("TOTAL_QUESTIONS", 0)
         val score = intent.getFloatExtra("SCORE", 0f)
         val timeTaken = intent.getLongExtra("TIME_TAKEN", 0)
+        val listeningScore = intent.getIntExtra("LISTENING_SCORE", 0)
+        val readingScore = intent.getIntExtra("READING_SCORE", 0)
 
         // Display score
         tvScore.text = String.format("%.1f%%", score)
@@ -52,6 +60,21 @@ class ExamResultActivity : AppCompatActivity() {
         // Display correct answers
         tvCorrectAnswers.text = "$correctAnswers"
         tvTotalQuestions.text = "$totalQuestions"
+
+        // Display listening and reading scores (for TOEIC)
+        if (listeningScore > 0 || readingScore > 0) {
+            tvListeningScore.text = "$listeningScore"
+            tvReadingScore.text = "$readingScore"
+            tvListeningScore.visibility = View.VISIBLE
+            tvReadingScore.visibility = View.VISIBLE
+            findViewById<TextView>(R.id.tvListeningLabel)?.visibility = View.VISIBLE
+            findViewById<TextView>(R.id.tvReadingLabel)?.visibility = View.VISIBLE
+        } else {
+            tvListeningScore.visibility = View.GONE
+            tvReadingScore.visibility = View.GONE
+            findViewById<TextView>(R.id.tvListeningLabel)?.visibility = View.GONE
+            findViewById<TextView>(R.id.tvReadingLabel)?.visibility = View.GONE
+        }
 
         // Display time taken
         val hours = (timeTaken / 1000) / 3600

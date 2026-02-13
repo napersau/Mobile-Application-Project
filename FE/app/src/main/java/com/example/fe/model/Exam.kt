@@ -87,6 +87,7 @@ data class UserAnswer(
     val selectedAnswer: String? // "A", "B", "C", "D" or null
 )
 
+// Local exam result for UI (before submitting to backend)
 data class ExamResult(
     val examId: Long,
     val examTitle: String,
@@ -96,5 +97,43 @@ data class ExamResult(
     val timeTaken: Long, // milliseconds
     val score: Float, // percentage
     val completedAt: Long // timestamp
+)
+
+// Backend API models for ExamResult
+data class ExamResultRequest(
+    val score: Int,
+    val listeningScore: Int?,
+    val readingScore: Int?,
+    val correctCount: Int, // Số câu đúng
+    val submitTime: String, // ISO 8601 format
+    val timeTaken: Int, // Thời gian làm bài (giây)
+    val examId: Long,
+    val examResultDetailRequestList: List<ExamResultDetailRequest>
+)
+
+data class ExamResultDetailRequest(
+    val selectedOption: String?, // "A", "B", "C", "D" or null
+    val isCorrect: Boolean,
+    val questionId: Long // ID của câu hỏi
+)
+
+data class ExamResultResponse(
+    val id: Long,
+    val score: Int,
+    val listeningScore: Int?,
+    val readingScore: Int?,
+    val correctCount: Int,
+    val submitTime: String,
+    val timeTaken: Int,
+    val user: UserResponse?,
+    val exam: ExamResponse?,
+    val details: List<ExamResultDetailResponse>?
+)
+
+data class ExamResultDetailResponse(
+    val id: Long,
+    val selectedOption: String?,
+    val isCorrect: Boolean,
+    val question: QuestionResponse?
 )
 

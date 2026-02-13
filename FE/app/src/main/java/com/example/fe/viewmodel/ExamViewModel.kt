@@ -7,13 +7,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.fe.model.ExamRequest
 import com.example.fe.model.ExamResponse
+import com.example.fe.model.ExamResultRequest
+import com.example.fe.model.ExamResultResponse
 import com.example.fe.model.ExamType
 import com.example.fe.repository.ExamRepository
+import com.example.fe.repository.ExamResultRepository
 import kotlinx.coroutines.launch
 
 class ExamViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = ExamRepository()
+    private val examResultRepository = ExamResultRepository()
 
     private val _examsLiveData = MutableLiveData<Result<List<ExamResponse>>>()
     val examsLiveData: LiveData<Result<List<ExamResponse>>> = _examsLiveData
@@ -26,6 +30,9 @@ class ExamViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _deleteExamLiveData = MutableLiveData<Result<Unit>>()
     val deleteExamLiveData: LiveData<Result<Unit>> = _deleteExamLiveData
+
+    private val _submitExamResultLiveData = MutableLiveData<Result<ExamResultResponse>>()
+    val submitExamResultLiveData: LiveData<Result<ExamResultResponse>> = _submitExamResultLiveData
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -136,6 +143,24 @@ class ExamViewModel(application: Application) : AndroidViewModel(application) {
                 }
             } catch (e: Exception) {
                 _deleteExamLiveData.postValue(Result.failure(e))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+            } finally {
+                _isLoading.postValue(false)
+            }
+        }
+    }
+
+    fun submitExamResult(request: ExamResultRequest) {
+        _isLoading.value = true
+        viewModelScope.launch {
+            try {
+                val result = examResultRepository.createExamResult(request)
+                _submitExamResultLiveData.postValue(result)
+                if (result.isFailure) {
+                    _errorMessage.postValue(result.exceptionOrNull()?.message ?: "Unknown error")
+                }
+            } catch (e: Exception) {
+                _submitExamResultLiveData.postValue(Result.failure(e))
                 _errorMessage.postValue(e.message ?: "Unknown error")
             } finally {
                 _isLoading.postValue(false)

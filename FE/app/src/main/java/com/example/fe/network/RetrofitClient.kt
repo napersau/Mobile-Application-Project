@@ -99,4 +99,7 @@ object RetrofitClient {
 
     val examApi: ExamApi
         get() = getRetrofit().create(ExamApi::class.java)
+
+    val examResultApi: ExamResultApi
+        get() = getRetrofit().create(ExamResultApi::class.java)
 }

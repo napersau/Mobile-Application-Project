@@ -198,23 +198,36 @@ class ExamTakingActivity : AppCompatActivity() {
         currentExam?.let { exam ->
             // Calculate results
             var correctAnswers = 0
+            var listeningCorrect = 0
+            var readingCorrect = 0
             val allQuestions = mutableListOf<QuestionResponse>()
 
             exam.questionGroups?.forEach { group ->
                 group.questions?.let { questions ->
                     allQuestions.addAll(questions)
-                }
-            }
 
-            allQuestions.forEach { question ->
-                val userAnswer = userAnswers[question.id]
-                if (userAnswer == question.correctAnswer) {
-                    correctAnswers++
+                    // Count listening (Part 1-4) and reading (Part 5-7) scores
+                    questions.forEach { question ->
+                        val userAnswer = userAnswers[question.id]
+                        if (userAnswer == question.correctAnswer) {
+                            correctAnswers++
+                            // Listening: Part 1-4
+                            if (group.type in listOf(PartType.PART_1, PartType.PART_2, PartType.PART_3, PartType.PART_4)) {
+                                listeningCorrect++
+                            } else { // Reading: Part 5-7
+                                readingCorrect++
+                            }
+                        }
+                    }
                 }
             }
 
             val totalQuestions = exam.totalQuestions ?: allQuestions.size
-            val score = (correctAnswers.toFloat() / totalQuestions) * 100
+            val score = ((correctAnswers.toFloat() / totalQuestions) * 100).toInt()
+
+            // Convert to TOEIC score (approximate: correct/100 * 495)
+            val listeningScore = if (totalQuestions > 100) (listeningCorrect * 495 / 100) else 0
+            val readingScore = if (totalQuestions > 100) (readingCorrect * 495 / 100) else 0
 
             // Calculate time taken
             val timeTaken = if (exam.duration != null) {
@@ -222,27 +235,69 @@ class ExamTakingActivity : AppCompatActivity() {
             } else {
                 0L
             }
+            val timeTakenSeconds = (timeTaken / 1000).toInt()
 
-            val result = ExamResult(
-                examId = exam.id,
-                examTitle = exam.title,
-                totalQuestions = totalQuestions,
-                correctAnswers = correctAnswers,
-                userAnswers = userAnswers.map { UserAnswer(it.key, it.value) },
-                timeTaken = timeTaken,
+            // Prepare exam result details
+            val examResultDetails = allQuestions.map { question ->
+                val userAnswer = userAnswers[question.id]
+                ExamResultDetailRequest(
+                    selectedOption = userAnswer,
+                    isCorrect = userAnswer == question.correctAnswer,
+                    questionId = question.id
+                )
+            }
+
+            // Create exam result request
+            val examResultRequest = ExamResultRequest(
                 score = score,
-                completedAt = System.currentTimeMillis()
+                listeningScore = listeningScore,
+                readingScore = readingScore,
+                correctCount = correctAnswers,
+                submitTime = java.time.Instant.now().toString(),
+                timeTaken = timeTakenSeconds,
+                examId = exam.id,
+                examResultDetailRequestList = examResultDetails
             )
 
-            // Navigate to result screen
-            val intent = Intent(this, ExamResultActivity::class.java)
-            intent.putExtra("EXAM_ID", exam.id)
-            intent.putExtra("CORRECT_ANSWERS", correctAnswers)
-            intent.putExtra("TOTAL_QUESTIONS", totalQuestions)
-            intent.putExtra("SCORE", score)
-            intent.putExtra("TIME_TAKEN", timeTaken)
-            startActivity(intent)
-            finish()
+            // Submit to backend
+            viewModel.submitExamResult(examResultRequest)
+
+            // Observe submission result
+            viewModel.submitExamResultLiveData.observe(this) { result ->
+                result.onSuccess { examResultResponse ->
+                    // Navigate to result screen with backend result ID
+                    val intent = Intent(this, ExamResultActivity::class.java)
+                    intent.putExtra("EXAM_RESULT_ID", examResultResponse.id)
+                    intent.putExtra("EXAM_ID", exam.id)
+                    intent.putExtra("CORRECT_ANSWERS", correctAnswers)
+                    intent.putExtra("TOTAL_QUESTIONS", totalQuestions)
+                    intent.putExtra("SCORE", score.toFloat())
+                    intent.putExtra("TIME_TAKEN", timeTaken)
+                    intent.putExtra("LISTENING_SCORE", listeningScore)
+                    intent.putExtra("READING_SCORE", readingScore)
+                    startActivity(intent)
+                    finish()
+                }
+                result.onFailure { error ->
+                    // Even if submission fails, show result locally
+                    Toast.makeText(
+                        this,
+                        "Lưu kết quả thất bại: ${error.message}. Hiển thị kết quả cục bộ.",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    val intent = Intent(this, ExamResultActivity::class.java)
+                    intent.putExtra("EXAM_ID", exam.id)
+                    intent.putExtra("CORRECT_ANSWERS", correctAnswers)
+                    intent.putExtra("TOTAL_QUESTIONS", totalQuestions)
+                    intent.putExtra("SCORE", score.toFloat())
+                    intent.putExtra("TIME_TAKEN", timeTaken)
+                    intent.putExtra("LISTENING_SCORE", listeningScore)
+                    intent.putExtra("READING_SCORE", readingScore)
+                    startActivity(intent)
+                    finish()
+                }
+            }
         }
     }
 

@@ -188,6 +188,66 @@
 
                     </LinearLayout>
 
+                    <!-- Listening Score (TOEIC) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvListeningLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="🎧 Listening:"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tvListeningScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="450"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            tools:text="450" />
+
+                    </LinearLayout>
+
+                    <!-- Reading Score (TOEIC) -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvReadingLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="📖 Reading:"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="14sp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/tvReadingScore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="445"
+                            android:textColor="@color/primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            tools:text="445" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
