@@ -97,4 +97,25 @@
     <string name="nav_translate">Dịch</string>
     <string name="nav_ai">AI</string>
     <string name="nav_profile">Cá nhân</string>
+
+    <!-- AI Assistant -->
+    <string name="ai_assistant_title">AI Assistant</string>
+    <string name="ai_assistant_subtitle">Hỏi đáp thông minh với AI</string>
+    <string name="ai_empty_state_title">Bắt đầu trò chuyện với AI</string>
+    <string name="ai_empty_state_subtitle">Đặt câu hỏi về tiếng Anh, học tập…</string>
+    <string name="ai_message_hint">Nhập tin nhắn của bạn…</string>
+    <string name="ai_send_message">Send message</string>
+    <string name="ai_clear_chat">Clear chat</string>
+
+    <!-- Home Modern -->
+    <string name="home_welcome_modern">Xin chào 👋</string>
+    <string name="home_subtitle_modern">Sẵn sàng học tiếng Anh hôm nay?</string>
+    <string name="home_quick_actions">Bắt đầu học ngay</string>
+    <string name="stat_words_today">Từ mới</string>
+    <string name="stat_streak_days">Ngày liên tiếp</string>
+    <string name="stat_total_points">Điểm</string>
+    <string name="feature_courses">Khóa học</string>
+    <string name="feature_flashcards">Flashcards</string>
+    <string name="feature_documents">Tài liệu</string>
+    <string name="feature_exams">Bài kiểm tra</string>
 </resources>
