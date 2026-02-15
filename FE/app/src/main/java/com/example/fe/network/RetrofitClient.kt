@@ -42,9 +42,9 @@ object RetrofitClient {
                     val okHttpClient = OkHttpClient.Builder()
                         .addInterceptor(AuthInterceptor(context.applicationContext))
                         .addInterceptor(loggingInterceptor)
-                        .connectTimeout(30, TimeUnit.SECONDS)
-                        .readTimeout(30, TimeUnit.SECONDS)
-                        .writeTimeout(30, TimeUnit.SECONDS)
+                        .connectTimeout(60, TimeUnit.SECONDS)
+                        .readTimeout(120, TimeUnit.SECONDS) // Increased for AI API
+                        .writeTimeout(60, TimeUnit.SECONDS)
                         .build()
 
                     retrofit = Retrofit.Builder()

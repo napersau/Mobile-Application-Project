@@ -1,5 +1,6 @@
 package com.example.fe.ui.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fe.R
+import com.example.fe.ui.activity.LoginActivity
 import com.example.fe.ui.adapter.ChatAdapter
 import com.example.fe.viewmodel.AIViewModel
 
@@ -80,6 +82,21 @@ class AIFragment : Fragment() {
     }
 
     private fun sendMessage() {
+        // Check if user is logged in before sending
+        if (!com.example.fe.utils.TokenManager.hasToken(requireContext())) {
+            Toast.makeText(
+                requireContext(),
+                "Vui lòng đăng nhập để sử dụng AI Chat",
+                Toast.LENGTH_LONG
+            ).show()
+
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            requireActivity().finish()
+            return
+        }
+
         val message = etMessage.text.toString().trim()
         if (message.isNotEmpty()) {
             viewModel.sendMessage(message)
@@ -99,11 +116,32 @@ class AIFragment : Fragment() {
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             btnSend.isEnabled = !isLoading
+            if (isLoading) {
+                Toast.makeText(
+                    requireContext(),
+                    "AI đang suy nghĩ... Có thể mất 30-60 giây",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             if (message.isNotEmpty()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+
+                // If error is related to authentication, navigate to login
+                if (message.contains("đăng nhập", ignoreCase = true) ||
+                    message.contains("login", ignoreCase = true) ||
+                    message.contains("unauthorized", ignoreCase = true)) {
+
+                    // Clear token and navigate to login
+                    com.example.fe.utils.TokenManager.clearTokens(requireContext())
+
+                    val intent = Intent(requireContext(), LoginActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    requireActivity().finish()
+                }
             }
         }
     }

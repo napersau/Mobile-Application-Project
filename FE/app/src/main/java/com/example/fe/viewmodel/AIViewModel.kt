@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class AIViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = AIRepository()
+    private val repository = AIRepository(application.applicationContext)
 
     private val _chatMessages = MutableLiveData<MutableList<ChatMessage>>(mutableListOf())
     val chatMessages: LiveData<MutableList<ChatMessage>> = _chatMessages
@@ -53,18 +53,30 @@ class AIViewModel(application: Application) : AndroidViewModel(application) {
                     _chatMessages.postValue(messages)
                 }
                 result.onFailure { error ->
-                    _errorMessage.postValue(error.message ?: "Unknown error")
+                    val errorMsg = when {
+                        error.message?.contains("timeout", ignoreCase = true) == true ->
+                            "Yêu cầu mất quá nhiều thời gian. Vui lòng thử lại hoặc đặt câu hỏi ngắn gọn hơn."
+                        error.message?.contains("401") == true || error.message?.contains("Unauthorized") == true ->
+                            "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."
+                        else -> "Xin lỗi, tôi gặp lỗi: ${error.message}"
+                    }
+                    _errorMessage.postValue(errorMsg)
                     // Add error message
-                    val errorMsg = ChatMessage(
-                        message = "Xin lỗi, tôi gặp lỗi: ${error.message}",
+                    val errorMessage = ChatMessage(
+                        message = errorMsg,
                         isUser = false
                     )
                     val messages = _chatMessages.value ?: mutableListOf()
-                    messages.add(errorMsg)
+                    messages.add(errorMessage)
                     _chatMessages.postValue(messages)
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue(e.message ?: "Unknown error")
+                val errorMsg = when {
+                    e.message?.contains("timeout", ignoreCase = true) == true ->
+                        "Yêu cầu mất quá nhiều thời gian. Vui lòng thử lại."
+                    else -> e.message ?: "Unknown error"
+                }
+                _errorMessage.postValue(errorMsg)
             } finally {
                 _isLoading.postValue(false)
             }
@@ -85,10 +97,22 @@ class AIViewModel(application: Application) : AndroidViewModel(application) {
                     _translationResult.postValue(translation)
                 }
                 result.onFailure { error ->
-                    _errorMessage.postValue(error.message ?: "Unknown error")
+                    val errorMsg = when {
+                        error.message?.contains("timeout", ignoreCase = true) == true ->
+                            "Yêu cầu mất quá nhiều thời gian. Vui lòng thử lại."
+                        error.message?.contains("401") == true || error.message?.contains("Unauthorized") == true ->
+                            "Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại."
+                        else -> error.message ?: "Unknown error"
+                    }
+                    _errorMessage.postValue(errorMsg)
                 }
             } catch (e: Exception) {
-                _errorMessage.postValue(e.message ?: "Unknown error")
+                val errorMsg = when {
+                    e.message?.contains("timeout", ignoreCase = true) == true ->
+                        "Yêu cầu mất quá nhiều thời gian. Vui lòng thử lại."
+                    else -> e.message ?: "Unknown error"
+                }
+                _errorMessage.postValue(errorMsg)
             } finally {
                 _isLoading.postValue(false)
             }

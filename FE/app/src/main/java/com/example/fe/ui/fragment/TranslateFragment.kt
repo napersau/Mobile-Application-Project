@@ -94,11 +94,18 @@ class TranslateFragment : Fragment() {
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             btnTranslate.isEnabled = !isLoading
             btnTranslate.text = if (isLoading) "Đang dịch..." else "Dịch"
+            if (isLoading) {
+                Toast.makeText(
+                    requireContext(),
+                    "Đang dịch... Có thể mất vài giây",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) { message ->
             if (message.isNotEmpty()) {
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
             }
         }
     }
