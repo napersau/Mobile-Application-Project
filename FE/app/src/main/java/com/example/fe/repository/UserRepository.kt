@@ -7,4 +7,7 @@ class UserRepository {
 
     suspend fun register(request: UserRequest) =
         RetrofitClient.userApi.register(request)
+
+    suspend fun getMyInfo() =
+        RetrofitClient.userApi.getMyInfo()
 }
