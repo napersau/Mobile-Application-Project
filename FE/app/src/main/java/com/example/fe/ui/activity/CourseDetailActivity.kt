@@ -18,6 +18,7 @@ import com.example.fe.model.Course
 import com.example.fe.model.Lesson
 import com.example.fe.model.LessonType
 import com.example.fe.ui.adapter.SectionAdapter
+import com.example.fe.utils.StudyTimeTracker
 import com.example.fe.viewmodel.CourseViewModel
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
@@ -37,6 +38,7 @@ class CourseDetailActivity : AppCompatActivity() {
     private lateinit var btnEnroll: MaterialButton
 
     private var courseId: Long = -1
+    private val studyTimeTracker = StudyTimeTracker("CourseDetail")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,6 +173,16 @@ class CourseDetailActivity : AppCompatActivity() {
 
     private fun formatPrice(price: Double): String {
         return String.format("%,.0f", price)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        studyTimeTracker.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        studyTimeTracker.stop()
     }
 
     override fun onSupportNavigateUp(): Boolean {

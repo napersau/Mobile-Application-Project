@@ -19,6 +19,7 @@ import com.example.fe.viewmodel.DocumentViewModel
 import com.example.fe.viewmodel.DocumentViewModelFactory
 import com.example.fe.repository.DocumentRepository
 import com.example.fe.network.RetrofitClient
+import com.example.fe.utils.StudyTimeTracker
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,6 +44,7 @@ class DocumentDetailActivity : AppCompatActivity() {
 
     private var documentId: Long = 0
     private var currentDocument: DocumentResponse? = null
+    private val studyTimeTracker = StudyTimeTracker("DocumentDetail")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -246,8 +248,14 @@ class DocumentDetailActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        studyTimeTracker.start()
         // Refresh document when returning from edit
         viewModel.loadDocumentById(documentId)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        studyTimeTracker.stop()
     }
 
     private fun showError(message: String) {

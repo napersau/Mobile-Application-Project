@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fe.R
 import com.example.fe.model.*
 import com.example.fe.ui.adapter.QuestionAdapter
+import com.example.fe.utils.StudyTimeTracker
 import com.example.fe.viewmodel.ExamViewModel
 
 class ExamTakingActivity : AppCompatActivity() {
@@ -23,6 +24,7 @@ class ExamTakingActivity : AppCompatActivity() {
     private var userAnswers = mutableMapOf<Long, String>()
     private var countDownTimer: CountDownTimer? = null
     private var timeLeftInMillis: Long = 0
+    private val studyTimeTracker = StudyTimeTracker("ExamTaking")
 
     private lateinit var tvTimer: TextView
     private lateinit var tvProgress: TextView
@@ -299,6 +301,16 @@ class ExamTakingActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        studyTimeTracker.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        studyTimeTracker.stop()
     }
 
     override fun onBackPressed() {

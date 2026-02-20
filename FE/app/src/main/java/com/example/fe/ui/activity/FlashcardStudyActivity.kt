@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.fe.R
 import com.example.fe.model.FlashcardResponse
+import com.example.fe.utils.StudyTimeTracker
 import com.example.fe.viewmodel.DecksViewModel
 import com.google.android.material.card.MaterialCardView
 
@@ -29,6 +30,7 @@ class FlashcardStudyActivity : AppCompatActivity() {
     private var flashcards: List<FlashcardResponse> = emptyList()
     private var currentIndex = 0
     private var isShowingAnswer = false
+    private val studyTimeTracker = StudyTimeTracker("FlashcardStudy")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,6 +171,16 @@ class FlashcardStudyActivity : AppCompatActivity() {
             currentIndex--
             showCurrentCard()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        studyTimeTracker.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        studyTimeTracker.stop()
     }
 
     override fun onSupportNavigateUp(): Boolean {

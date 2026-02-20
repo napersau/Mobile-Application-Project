@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fe.R
 import com.example.fe.ui.activity.LoginActivity
 import com.example.fe.ui.adapter.ChatAdapter
+import com.example.fe.utils.StudyTimeTracker
 import com.example.fe.viewmodel.AIViewModel
 
 class AIFragment : Fragment() {
@@ -28,6 +29,7 @@ class AIFragment : Fragment() {
     private lateinit var btnSend: ImageButton
     private lateinit var btnClearChat: ImageView
     private lateinit var progressBar: ProgressBar
+    private val studyTimeTracker = StudyTimeTracker("AIFragment")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -79,6 +81,16 @@ class AIFragment : Fragment() {
         btnClearChat.setOnClickListener {
             viewModel.clearChat()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        studyTimeTracker.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        studyTimeTracker.stop()
     }
 
     private fun sendMessage() {
