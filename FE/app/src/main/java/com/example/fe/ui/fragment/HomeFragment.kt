@@ -12,6 +12,7 @@ import com.example.fe.ui.activity.CoursesListActivity
 import com.example.fe.ui.activity.DecksListActivity
 import com.example.fe.ui.activity.DocumentCategoryActivity
 import com.example.fe.ui.activity.ExamCategoryActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
 
@@ -41,6 +42,15 @@ class HomeFragment : Fragment() {
 
         view.findViewById<CardView>(R.id.cardExams)?.setOnClickListener {
             startActivity(Intent(requireContext(), ExamCategoryActivity::class.java))
+        }
+
+        view.findViewById<CardView>(R.id.cardTranslate)?.setOnClickListener {
+            // Navigate to TranslateFragment and update bottom nav selection
+            val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
+            bottomNav?.selectedItemId = R.id.navigation_ai
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, TranslateFragment())
+                .commit()
         }
     }
 }

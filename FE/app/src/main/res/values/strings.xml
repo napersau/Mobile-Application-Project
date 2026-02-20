@@ -118,6 +118,7 @@
     <string name="feature_flashcards">Flashcards</string>
     <string name="feature_documents">Tài liệu</string>
     <string name="feature_exams">Bài kiểm tra</string>
+    <string name="feature_translate">Dịch nghĩa</string>
 
     <!-- Profile -->
     <string name="username_format">\@%s</string>
