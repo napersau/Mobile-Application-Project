@@ -121,4 +121,27 @@
 
     <!-- Profile -->
     <string name="username_format">\@%s</string>
+
+    <!-- Translate Screen -->
+    <string name="translate_title">Dịch</string>
+    <string name="translate_source_lang">Tiếng Anh</string>
+    <string name="translate_target_lang">Tiếng Việt</string>
+    <string name="translate_swap_desc">Đổi ngôn ngữ</string>
+    <string name="translate_hint">Nhập văn bản...</string>
+    <string name="translate_clear_desc">Xóa</string>
+    <string name="translate_btn">Dịch</string>
+    <string name="translate_btn_loading">Đang dịch…</string>
+    <string name="translate_loading_text">Đang dịch...</string>
+    <string name="translate_empty_hint">Kết quả dịch sẽ hiển thị tại đây</string>
+    <string name="translate_copy_desc">Sao chép</string>
+    <string name="translate_share_desc">Chia sẻ</string>
+    <string name="translate_icon_desc">Biểu tượng dịch</string>
+    <string name="translate_tip_icon">💡</string>
+    <string name="translate_example1">Hello, how are you?</string>
+    <string name="translate_example2">I am learning English</string>
+    <string name="translate_example3">Thank you very much</string>
+    <string name="translate_share_chooser">Chia sẻ bản dịch</string>
+    <string name="translate_copied">Đã sao chép</string>
+    <string name="translate_empty_input">Vui lòng nhập văn bản</string>
+    <string name="translate_input_autofill">translateInput</string>
 </resources>
