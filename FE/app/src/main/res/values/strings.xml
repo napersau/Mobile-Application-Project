@@ -121,6 +121,7 @@
 
     <!-- Profile -->
     <string name="username_format">\@%s</string>
+    <string name="chart_load_error">Không thể tải dữ liệu</string>
 
     <!-- Translate Screen -->
     <string name="translate_title">Dịch</string>

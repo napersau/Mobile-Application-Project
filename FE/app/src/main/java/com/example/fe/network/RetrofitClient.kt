@@ -105,4 +105,7 @@ object RetrofitClient {
 
     val aiApi: AIApi
         get() = getRetrofit().create(AIApi::class.java)
+
+    val analyticsApi: AnalyticsApi
+        get() = getRetrofit().create(AnalyticsApi::class.java)
 }
