@@ -93,6 +93,32 @@
             android:exported="false"
             android:label="Kết quả bài thi"/>
 
+        <!-- Payment -->
+        <activity
+            android:name=".ui.activity.PaymentWebViewActivity"
+            android:exported="false"
+            android:label="Thanh toán VNPay"/>
+
+        <activity
+            android:name=".ui.activity.PaymentResultActivity"
+            android:exported="true"
+            android:label="Kết quả thanh toán">
+            <!-- Deep link: studymate://payment-success -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data
+                    android:scheme="studymate"
+                    android:host="payment-success"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.OrderListActivity"
+            android:exported="false"
+            android:label="Đơn hàng của tôi"/>
+
     </application>
 
 </manifest>

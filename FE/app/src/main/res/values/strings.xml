@@ -146,4 +146,25 @@
     <string name="translate_copied">Đã sao chép</string>
     <string name="translate_empty_input">Vui lòng nhập văn bản</string>
     <string name="translate_input_autofill">translateInput</string>
+
+    <!-- Payment -->
+    <string name="payment_processing">Đang xử lý...</string>
+    <string name="payment_processing_message">Vui lòng chờ trong giây lát</string>
+    <string name="payment_success_title">Thanh toán thành công!</string>
+    <string name="payment_success_message">Chúc mừng! Bạn đã đăng ký khóa học thành công.</string>
+    <string name="payment_failed_title">Thanh toán thất bại</string>
+    <string name="payment_failed_message">Giao dịch không thành công. Vui lòng thử lại.</string>
+    <string name="go_home">Về trang chủ</string>
+    <string name="try_again">Thử lại</string>
+    <string name="txn_ref_label">Mã giao dịch: %s</string>
+    <string name="enroll_free">Đăng ký miễn phí</string>
+    <string name="enroll_paid">Thanh toán %s VNĐ</string>
+    <string name="view_orders">Xem đơn hàng</string>
+    <string name="my_orders">Đơn hàng của tôi</string>
+    <string name="no_orders">Bạn chưa có đơn hàng nào</string>
+    <string name="order_txn_ref">Mã GD: %s</string>
+    <string name="order_status_success">✅ Thành công</string>
+    <string name="order_status_pending">⏳ Chờ xử lý</string>
+    <string name="order_status_failed">❌ Thất bại</string>
+
 </resources>

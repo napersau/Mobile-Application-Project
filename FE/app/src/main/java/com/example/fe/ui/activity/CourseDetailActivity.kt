@@ -20,12 +20,14 @@ import com.example.fe.model.LessonType
 import com.example.fe.ui.adapter.SectionAdapter
 import com.example.fe.utils.StudyTimeTracker
 import com.example.fe.viewmodel.CourseViewModel
+import com.example.fe.viewmodel.PaymentViewModel
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.button.MaterialButton
 
 class CourseDetailActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CourseViewModel
+    private lateinit var paymentViewModel: PaymentViewModel
     private lateinit var collapsingToolbar: CollapsingToolbarLayout
     private lateinit var ivCourseHeaderImage: ImageView
     private lateinit var tvLevel: TextView
@@ -83,6 +85,7 @@ class CourseDetailActivity : AppCompatActivity() {
 
     private fun setupViewModel() {
         viewModel = ViewModelProvider(this)[CourseViewModel::class.java]
+        paymentViewModel = ViewModelProvider(this)[PaymentViewModel::class.java]
 
         viewModel.courseDetailLiveData.observe(this) { result ->
             result.onSuccess { course ->
@@ -94,6 +97,23 @@ class CourseDetailActivity : AppCompatActivity() {
 
         viewModel.isLoading.observe(this) { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        paymentViewModel.isLoading.observe(this) { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+            btnEnroll.isEnabled = !isLoading
+        }
+
+        paymentViewModel.paymentUrlLiveData.observe(this) { result ->
+            result.onSuccess { vnPayResponse ->
+                val intent = Intent(this, PaymentWebViewActivity::class.java).apply {
+                    putExtra(PaymentWebViewActivity.EXTRA_PAYMENT_URL, vnPayResponse.paymentUrl)
+                    putExtra(PaymentWebViewActivity.EXTRA_COURSE_ID, courseId)
+                }
+                startActivity(intent)
+            }.onFailure { error ->
+                showError(error.message ?: "Không thể tạo link thanh toán")
+            }
         }
     }
 
@@ -119,6 +139,13 @@ class CourseDetailActivity : AppCompatActivity() {
         tvPrice.text = when {
             course.price == null || course.price == 0.0 -> "Miễn phí"
             else -> "${formatPrice(course.price)} VNĐ"
+        }
+
+        // Update enroll button text based on price
+        if (course.price == null || course.price == 0.0) {
+            btnEnroll.setText(R.string.enroll_free)
+        } else {
+            btnEnroll.text = getString(R.string.enroll_paid, formatPrice(course.price))
         }
 
         if (course.sections.isNullOrEmpty()) {
@@ -164,7 +191,8 @@ class CourseDetailActivity : AppCompatActivity() {
     }
 
     private fun enrollCourse() {
-        Toast.makeText(this, "Tính năng đăng ký khóa học đang được phát triển", Toast.LENGTH_SHORT).show()
+        if (courseId == -1L) return
+        paymentViewModel.createVnPayPayment(courseId)
     }
 
     private fun showError(message: String) {
@@ -172,7 +200,7 @@ class CourseDetailActivity : AppCompatActivity() {
     }
 
     private fun formatPrice(price: Double): String {
-        return String.format("%,.0f", price)
+        return String.format(java.util.Locale.getDefault(), "%,.0f", price)
     }
 
     override fun onResume() {

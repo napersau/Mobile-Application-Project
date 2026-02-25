@@ -108,4 +108,10 @@ object RetrofitClient {
 
     val analyticsApi: AnalyticsApi
         get() = getRetrofit().create(AnalyticsApi::class.java)
+
+    val paymentApi: PaymentApiService
+        get() = getRetrofit().create(PaymentApiService::class.java)
+
+    val orderApi: OrderApiService
+        get() = getRetrofit().create(OrderApiService::class.java)
 }
