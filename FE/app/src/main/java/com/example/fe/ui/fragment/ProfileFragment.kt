@@ -1,13 +1,11 @@
 package com.example.fe.ui.fragment
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.fe.R
-import com.example.fe.ui.activity.ProfileActivity
 
 class ProfileFragment : Fragment() {
     override fun onCreateView(
@@ -15,12 +13,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_courses, container, false)
-
-        // Automatically open ProfileActivity when this fragment loads
-        startActivity(Intent(requireContext(), ProfileActivity::class.java))
-
-        return view
+        // This fragment is no longer used as a launcher.
+        // ProfileActivity is opened directly from MainActivity.
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 }
-

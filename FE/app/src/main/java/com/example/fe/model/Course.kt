@@ -10,7 +10,8 @@ data class Course(
     val level: String?, // Beginner, Intermediate, Advanced
     val totalStudents: Int = 0,
     val isPublished: Boolean = false,
-    val sections: List<Section>? = null
+    val sections: List<Section>? = null,
+    val isEnrolled: Boolean = false
 )
 
 data class CourseRequest(

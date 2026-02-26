@@ -31,6 +31,7 @@
 
     <!-- Status Colors -->
     <color name="published_green">#4CAF50</color>
+    <color name="success_green">#4CAF50</color>
     <color name="draft_orange">#FF9800</color>
 
     <!-- Grey Shades -->

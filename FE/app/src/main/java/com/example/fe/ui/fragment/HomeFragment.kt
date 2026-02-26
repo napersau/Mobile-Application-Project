@@ -12,6 +12,7 @@ import com.example.fe.ui.activity.CoursesListActivity
 import com.example.fe.ui.activity.DecksListActivity
 import com.example.fe.ui.activity.DocumentCategoryActivity
 import com.example.fe.ui.activity.ExamCategoryActivity
+import com.example.fe.ui.activity.OrderListActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeFragment : Fragment() {
@@ -26,6 +27,11 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Order history icon in header
+        view.findViewById<CardView>(R.id.btnOrderHistory)?.setOnClickListener {
+            startActivity(Intent(requireContext(), OrderListActivity::class.java))
+        }
 
         // Setup click listeners for feature cards
         view.findViewById<CardView>(R.id.cardCourses)?.setOnClickListener {
@@ -44,6 +50,10 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireContext(), ExamCategoryActivity::class.java))
         }
 
+        view.findViewById<CardView>(R.id.cardOrders)?.setOnClickListener {
+            startActivity(Intent(requireContext(), OrderListActivity::class.java))
+        }
+
         view.findViewById<CardView>(R.id.cardTranslate)?.setOnClickListener {
             // Navigate to TranslateFragment and update bottom nav selection
             val bottomNav = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation)
@@ -54,4 +64,3 @@ class HomeFragment : Fragment() {
         }
     }
 }
-

@@ -119,6 +119,7 @@
     <string name="feature_documents">Tài liệu</string>
     <string name="feature_exams">Bài kiểm tra</string>
     <string name="feature_translate">Dịch nghĩa</string>
+    <string name="feature_orders">Hóa đơn</string>
 
     <!-- Profile -->
     <string name="username_format">\@%s</string>
@@ -159,8 +160,9 @@
     <string name="txn_ref_label">Mã giao dịch: %s</string>
     <string name="enroll_free">Đăng ký miễn phí</string>
     <string name="enroll_paid">Thanh toán %s VNĐ</string>
+    <string name="access_course">Truy cập khóa học</string>
     <string name="view_orders">Xem đơn hàng</string>
-    <string name="my_orders">Đơn hàng của tôi</string>
+    <string name="my_orders">Lịch sử đơn hàng</string>
     <string name="no_orders">Bạn chưa có đơn hàng nào</string>
     <string name="order_txn_ref">Mã GD: %s</string>
     <string name="order_status_success">✅ Thành công</string>

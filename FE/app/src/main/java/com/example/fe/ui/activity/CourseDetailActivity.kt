@@ -40,6 +40,7 @@ class CourseDetailActivity : AppCompatActivity() {
     private lateinit var btnEnroll: MaterialButton
 
     private var courseId: Long = -1
+    private var currentCourse: Course? = null
     private val studyTimeTracker = StudyTimeTracker("CourseDetail")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,6 +123,7 @@ class CourseDetailActivity : AppCompatActivity() {
     }
 
     private fun displayCourseDetail(course: Course) {
+        currentCourse = course
         collapsingToolbar.title = course.title
 
         if (!course.imageUrl.isNullOrEmpty()) {
@@ -141,11 +143,19 @@ class CourseDetailActivity : AppCompatActivity() {
             else -> "${formatPrice(course.price)} VNĐ"
         }
 
-        // Update enroll button text based on price
-        if (course.price == null || course.price == 0.0) {
+        // Update button based on enrollment status
+        if (course.isEnrolled) {
+            btnEnroll.setText(R.string.access_course)
+            btnEnroll.icon = null
+            btnEnroll.setBackgroundColor(resources.getColor(R.color.published_green, theme))
+        } else if (course.price == null || course.price == 0.0) {
             btnEnroll.setText(R.string.enroll_free)
+            btnEnroll.icon = null
+            btnEnroll.setBackgroundColor(resources.getColor(R.color.primary, theme))
         } else {
             btnEnroll.text = getString(R.string.enroll_paid, formatPrice(course.price))
+            btnEnroll.icon = null
+            btnEnroll.setBackgroundColor(resources.getColor(R.color.primary, theme))
         }
 
         if (course.sections.isNullOrEmpty()) {
@@ -192,7 +202,15 @@ class CourseDetailActivity : AppCompatActivity() {
 
     private fun enrollCourse() {
         if (courseId == -1L) return
-        paymentViewModel.createVnPayPayment(courseId)
+        val course = currentCourse ?: return
+        if (course.isEnrolled) {
+            // Already purchased — open course content (first lesson or section)
+            Toast.makeText(this, "Chào mừng trở lại! Tiếp tục học khóa học.", Toast.LENGTH_SHORT).show()
+            val firstLesson: Lesson? = course.sections?.firstOrNull()?.lessons?.firstOrNull()
+            if (firstLesson != null) openLesson(firstLesson)
+        } else {
+            paymentViewModel.createVnPayPayment(courseId)
+        }
     }
 
     private fun showError(message: String) {
@@ -203,9 +221,16 @@ class CourseDetailActivity : AppCompatActivity() {
         return String.format(java.util.Locale.getDefault(), "%,.0f", price)
     }
 
+    private var isFirstResume = true
+
     override fun onResume() {
         super.onResume()
         studyTimeTracker.start()
+        // Reload course detail to refresh isEnrolled status after returning from payment
+        if (!isFirstResume && courseId != -1L) {
+            loadCourseDetail()
+        }
+        isFirstResume = false
     }
 
     override fun onPause() {
