@@ -82,6 +82,9 @@ object RetrofitClient {
     val authApi: AuthApi
         get() = getAuthRetrofit().create(AuthApi::class.java)
 
+    val emailApi: EmailApi
+        get() = getAuthRetrofit().create(EmailApi::class.java)
+
     val userApi: UserApi
         get() = getRetrofit().create(UserApi::class.java)
 

@@ -24,6 +24,10 @@
             android:name=".ui.activity.RegisterActivity"
             android:exported="false"/>
         <activity
+            android:name=".ui.activity.ForgotPasswordActivity"
+            android:exported="false"
+            android:label="Quên mật khẩu"/>
+        <activity
             android:name=".MainActivity"
             android:exported="false"/>
         <activity

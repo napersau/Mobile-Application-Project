@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
         val edtPassword = findViewById<EditText>(R.id.edtPassword)
         val btnLogin = findViewById<Button>(R.id.btnLogin)
         val tvSignUp = findViewById<TextView>(R.id.tvSignUp)
+        val tvForgotPassword = findViewById<TextView>(R.id.tvForgotPassword)
 
         // Setup observer TRƯỚC khi có thể login
         viewModel.loginResult.observe(this) { result ->
@@ -80,6 +81,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, RegisterActivity::class.java)
             )
+        }
+
+        tvForgotPassword.setOnClickListener {
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 }
