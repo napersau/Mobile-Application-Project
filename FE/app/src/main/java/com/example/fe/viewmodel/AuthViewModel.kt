@@ -9,13 +9,15 @@ import com.example.fe.model.AuthenticationResponse
 import com.example.fe.repository.AuthRepository
 import kotlinx.coroutines.launch
 
-
 class AuthViewModel : ViewModel() {
 
     private val repository = AuthRepository()
 
     private val _loginResult = MutableLiveData<Result<AuthenticationResponse>>()
     val loginResult: LiveData<Result<AuthenticationResponse>> = _loginResult
+
+    private val _googleLoginResult = MutableLiveData<Result<AuthenticationResponse>>()
+    val googleLoginResult: LiveData<Result<AuthenticationResponse>> = _googleLoginResult
 
     fun login(username: String, password: String) {
         viewModelScope.launch {
@@ -64,6 +66,42 @@ class AuthViewModel : ViewModel() {
             } catch (e: Exception) {
                 Log.e("AuthViewModel", "Exception during login", e)
                 _loginResult.postValue(Result.failure(Exception("Lỗi không xác định: ${e.message}")))
+            }
+        }
+    }
+
+    fun loginWithGoogle(idToken: String) {
+        viewModelScope.launch {
+            try {
+                Log.d("AuthViewModel", "=== GOOGLE LOGIN ATTEMPT ===")
+                val response = repository.loginWithGoogle(idToken)
+                Log.d("AuthViewModel", "Google login response - code: ${response.code}")
+
+                if (response.code == 1000 && response.result != null) {
+                    Log.d("AuthViewModel", "Google login successful")
+                    _googleLoginResult.postValue(Result.success(response.result))
+                } else {
+                    val errorMsg = "Đăng nhập Google thất bại: ${response.message}"
+                    Log.e("AuthViewModel", errorMsg)
+                    _googleLoginResult.postValue(Result.failure(Exception(errorMsg)))
+                }
+            } catch (e: retrofit2.HttpException) {
+                Log.e("AuthViewModel", "Google HTTP Exception: ${e.code()}", e)
+                val errorMsg = when (e.code()) {
+                    401 -> "Token Google không hợp lệ hoặc đã hết hạn"
+                    500 -> "Lỗi server. Vui lòng thử lại sau"
+                    else -> "Lỗi kết nối: HTTP ${e.code()}"
+                }
+                _googleLoginResult.postValue(Result.failure(Exception(errorMsg)))
+            } catch (e: java.net.UnknownHostException) {
+                Log.e("AuthViewModel", "Cannot connect to server", e)
+                _googleLoginResult.postValue(Result.failure(Exception("Không thể kết nối đến server")))
+            } catch (e: java.net.ConnectException) {
+                Log.e("AuthViewModel", "Connection refused", e)
+                _googleLoginResult.postValue(Result.failure(Exception("Server không phản hồi")))
+            } catch (e: Exception) {
+                Log.e("AuthViewModel", "Exception during Google login", e)
+                _googleLoginResult.postValue(Result.failure(Exception("Lỗi không xác định: ${e.message}")))
             }
         }
     }

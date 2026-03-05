@@ -63,7 +63,6 @@ dependencies {
     // MPAndroidChart for analytics bar chart
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
-
-
-
+    // Google Sign-In
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
 }

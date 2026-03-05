@@ -3,6 +3,7 @@ package com.example.fe.network
 import com.example.fe.model.ApiResponse
 import com.example.fe.model.AuthenticationRequest
 import com.example.fe.model.AuthenticationResponse
+import com.example.fe.model.GoogleTokenRequest
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -19,4 +20,10 @@ interface AuthApi {
     suspend fun introspect(
         @Body request: Map<String, String>
     ): ApiResponse<Map<String, Any>>
+
+    // Google Mobile login endpoint
+    @POST("api/v1/auth/google-mobile")
+    suspend fun loginWithGoogle(
+        @Body request: GoogleTokenRequest
+    ): ApiResponse<AuthenticationResponse>
 }

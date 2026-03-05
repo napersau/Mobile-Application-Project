@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">English Learning</string>
-    
+    <!-- Google Sign-In Web Client ID (must match your backend's spring.security.oauth2.client.registration.google.client-id) -->
+    <string name="google_web_client_id">134999019175-vpc4b98uah578pgeabhm0o9iahqqaqo1.apps.googleusercontent.com</string>
+
     <!-- Home Screen -->
     <string name="home_welcome">Xin chào!</string>
     <string name="home_subtitle">Hãy bắt đầu hành trình học tiếng Anh của bạn</string>
