@@ -175,7 +175,16 @@ class CourseDetailActivity : AppCompatActivity() {
     private fun openLesson(lesson: Lesson) {
         when (lesson.type) {
             LessonType.VIDEO -> {
-                Toast.makeText(this, "Video: ${lesson.title}", Toast.LENGTH_SHORT).show()
+                val url = lesson.videoUrl
+                if (!url.isNullOrEmpty()) {
+                    val intent = Intent(this, VideoPlayerActivity::class.java).apply {
+                        putExtra(VideoPlayerActivity.EXTRA_VIDEO_URL, url)
+                        putExtra(VideoPlayerActivity.EXTRA_LESSON_TITLE, lesson.title)
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Video đang được cập nhật", Toast.LENGTH_SHORT).show()
+                }
             }
             LessonType.DOCUMENT -> {
                 if (lesson.document != null) {
@@ -183,6 +192,8 @@ class CourseDetailActivity : AppCompatActivity() {
                         putExtra("DOCUMENT_ID", lesson.document.id)
                     }
                     startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Tài liệu đang được cập nhật", Toast.LENGTH_SHORT).show()
                 }
             }
             LessonType.FLASHCARD -> {
@@ -192,10 +203,19 @@ class CourseDetailActivity : AppCompatActivity() {
                         putExtra("DECK_NAME", lesson.deck.title)
                     }
                     startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Bộ flashcard đang được cập nhật", Toast.LENGTH_SHORT).show()
                 }
             }
             LessonType.EXAM -> {
-                Toast.makeText(this, "Exam: ${lesson.title}", Toast.LENGTH_SHORT).show()
+                if (lesson.exam != null) {
+                    val intent = Intent(this, ExamDetailActivity::class.java).apply {
+                        putExtra("EXAM_ID", lesson.exam.id)
+                    }
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Bài kiểm tra đang được cập nhật", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -204,10 +224,12 @@ class CourseDetailActivity : AppCompatActivity() {
         if (courseId == -1L) return
         val course = currentCourse ?: return
         if (course.isEnrolled) {
-            // Already purchased — open course content (first lesson or section)
-            Toast.makeText(this, "Chào mừng trở lại! Tiếp tục học khóa học.", Toast.LENGTH_SHORT).show()
-            val firstLesson: Lesson? = course.sections?.firstOrNull()?.lessons?.firstOrNull()
-            if (firstLesson != null) openLesson(firstLesson)
+            // Already enrolled — open course content screen
+            val intent = Intent(this, CourseContentActivity::class.java).apply {
+                putExtra(CourseContentActivity.EXTRA_COURSE_ID, courseId)
+                putExtra(CourseContentActivity.EXTRA_COURSE_TITLE, course.title)
+            }
+            startActivity(intent)
         } else {
             paymentViewModel.createVnPayPayment(courseId)
         }

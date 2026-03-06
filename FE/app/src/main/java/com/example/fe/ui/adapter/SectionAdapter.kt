@@ -13,10 +13,13 @@ import com.example.fe.model.Section
 
 class SectionAdapter(
     private val sections: List<Section>,
+    private val expandAll: Boolean = false,
     private val onLessonClick: (Lesson) -> Unit
 ) : RecyclerView.Adapter<SectionAdapter.SectionViewHolder>() {
 
-    private val expandedSections = mutableSetOf<Long>()
+    private val expandedSections = mutableSetOf<Long>().apply {
+        if (expandAll) addAll(sections.map { it.id })
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SectionViewHolder {
         val view = LayoutInflater.from(parent.context)

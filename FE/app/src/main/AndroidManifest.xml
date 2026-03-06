@@ -123,6 +123,18 @@
             android:exported="false"
             android:label="Đơn hàng của tôi"/>
 
+        <activity
+            android:name=".ui.activity.CourseContentActivity"
+            android:exported="false"
+            android:label="Nội dung khóa học"/>
+
+        <activity
+            android:name=".ui.activity.VideoPlayerActivity"
+            android:exported="false"
+            android:label="Xem video"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
+
     </application>
 
 </manifest>
