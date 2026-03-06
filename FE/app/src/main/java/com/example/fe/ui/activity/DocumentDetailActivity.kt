@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -33,7 +35,7 @@ class DocumentDetailActivity : AppCompatActivity() {
     }
     private lateinit var titleText: TextView
     private lateinit var descriptionText: TextView
-    private lateinit var contentText: TextView
+    private lateinit var webViewContent: WebView
     private lateinit var categoryText: TextView
     private lateinit var authorText: TextView
     private lateinit var dateText: TextView
@@ -75,7 +77,13 @@ class DocumentDetailActivity : AppCompatActivity() {
     private fun setupViews() {
         titleText = findViewById(R.id.textTitle)
         descriptionText = findViewById(R.id.textDescription)
-        contentText = findViewById(R.id.textContent)
+        webViewContent = findViewById(R.id.webViewContent)
+        webViewContent.webViewClient = WebViewClient()
+        webViewContent.settings.apply {
+            javaScriptEnabled = false
+            loadWithOverviewMode = true
+            useWideViewPort = true
+        }
         categoryText = findViewById(R.id.textCategory)
         authorText = findViewById(R.id.textAuthor)
         dateText = findViewById(R.id.textDate)
@@ -117,7 +125,31 @@ class DocumentDetailActivity : AppCompatActivity() {
     private fun displayDocument(document: DocumentResponse) {
         titleText.text = document.title
         descriptionText.text = document.description.ifEmpty { "Không có mô tả" }
-        contentText.text = document.content
+
+        // Render HTML content (supports tables, lists, bold, italic, etc.)
+        val htmlContent = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <style>
+                    body { font-family: sans-serif; font-size: 16px; color: #212121; line-height: 1.6; margin: 0; padding: 0; }
+                    table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+                    th, td { border: 1px solid #bdbdbd; padding: 8px 10px; text-align: left; }
+                    th { background-color: #f5f5f5; font-weight: bold; }
+                    ul, ol { padding-left: 20px; }
+                    li { margin-bottom: 4px; }
+                    strong { font-weight: bold; }
+                    em { font-style: italic; }
+                    p { margin: 8px 0; }
+                </style>
+            </head>
+            <body>${document.content}</body>
+            </html>
+        """.trimIndent()
+        webViewContent.loadDataWithBaseURL(null, htmlContent, "text/html", "UTF-8", null)
+
         categoryText.text = getCategoryDisplayName(document.category.name)
         viewCountText.text = getString(R.string.view_count_format, document.viewCount)
 
