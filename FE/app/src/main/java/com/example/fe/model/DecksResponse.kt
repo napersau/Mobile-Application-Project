@@ -5,8 +5,11 @@ data class DecksResponse(
     val title: String,
     val description: String? = null,
     val isPublic: Boolean? = false,
-    val totalFlashcards: Int? = 0,
+    val totalFlashcards: Int? = null,
     val createdAt: String? = null,
     val updatedAt: String? = null,
     val flashcardsList: List<FlashcardResponse>? = null
-)
+) {
+    val effectiveTotalFlashcards: Int
+        get() = totalFlashcards ?: (flashcardsList?.size ?: 0)
+}

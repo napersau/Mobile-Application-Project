@@ -36,7 +36,7 @@ class DecksAdapter(
         fun bind(deck: DecksResponse) {
             tvDeckName.text = deck.title
             tvDeckDescription.text = deck.description ?: "Không có mô tả"
-            tvCardCount.text = "${deck.totalFlashcards ?: 0} thẻ"
+            tvCardCount.text = "${deck.effectiveTotalFlashcards} thẻ"
 
             itemView.setOnClickListener {
                 onDeckClick(deck)
