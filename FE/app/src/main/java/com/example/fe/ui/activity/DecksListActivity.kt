@@ -43,8 +43,8 @@ class DecksListActivity : AppCompatActivity() {
         // Setup RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
         decksAdapter = DecksAdapter { deck ->
-            // Navigate to DeckDetailActivity
-            val intent = Intent(this, DeckDetailActivity::class.java)
+            // Navigate directly to FlashcardStudyActivity
+            val intent = Intent(this, FlashcardStudyActivity::class.java)
             intent.putExtra("DECK_ID", deck.id)
             intent.putExtra("DECK_NAME", deck.title)
             startActivity(intent)

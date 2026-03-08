@@ -198,7 +198,7 @@ class CourseDetailActivity : AppCompatActivity() {
             }
             LessonType.FLASHCARD -> {
                 if (lesson.deck != null) {
-                    val intent = Intent(this, DeckDetailActivity::class.java).apply {
+                    val intent = Intent(this, FlashcardStudyActivity::class.java).apply {
                         putExtra("DECK_ID", lesson.deck.id)
                         putExtra("DECK_NAME", lesson.deck.title)
                     }
