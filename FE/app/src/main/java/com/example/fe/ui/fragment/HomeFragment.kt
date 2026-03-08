@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import com.example.fe.R
@@ -29,7 +30,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Order history icon in header
-        view.findViewById<CardView>(R.id.btnOrderHistory)?.setOnClickListener {
+        view.findViewById<ImageView>(R.id.btnOrderHistory)?.setOnClickListener {
             startActivity(Intent(requireContext(), OrderListActivity::class.java))
         }
 

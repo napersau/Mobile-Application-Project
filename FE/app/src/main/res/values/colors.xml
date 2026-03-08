@@ -37,4 +37,7 @@
     <!-- Grey Shades -->
     <color name="grey_light">#F5F5F5</color>
     <color name="grey_dark">#616161</color>
+
+    <!-- Semi-transparent -->
+    <color name="white_20">#33FFFFFF</color>
 </resources>

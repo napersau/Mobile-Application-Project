@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.example.fe.R
 import com.example.fe.model.DocumentResponse
@@ -47,6 +48,7 @@ class DocumentDetailActivity : AppCompatActivity() {
     private var documentId: Long = 0
     private var currentDocument: DocumentResponse? = null
     private val studyTimeTracker = StudyTimeTracker("DocumentDetail")
+    private var needsRefresh = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,11 +164,11 @@ class DocumentDetailActivity : AppCompatActivity() {
 
         // Published status
         publishedIndicator.text = getString(if (document.isPublished) R.string.published else R.string.draft)
-        publishedIndicator.setBackgroundColor(
-            if (document.isPublished) 
-                getColor(R.color.published_green) 
-            else 
-                getColor(R.color.draft_orange)
+        publishedIndicator.setBackgroundResource(
+            if (document.isPublished)
+                R.drawable.bg_status_published
+            else
+                R.drawable.bg_status_draft
         )
 
         // Load thumbnail (if using image loading library)
@@ -242,6 +244,7 @@ class DocumentDetailActivity : AppCompatActivity() {
         }
 
         currentDocument?.let { document ->
+            needsRefresh = true
             val intent = Intent(this, DocumentEditorActivity::class.java).apply {
                 putExtra("document_id", document.id)
                 putExtra("edit_mode", true)
@@ -281,8 +284,11 @@ class DocumentDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         studyTimeTracker.start()
-        // Refresh document when returning from edit
-        viewModel.loadDocumentById(documentId)
+        // Only refresh when returning from the editor
+        if (needsRefresh) {
+            needsRefresh = false
+            viewModel.loadDocumentById(documentId)
+        }
     }
 
     override fun onPause() {
